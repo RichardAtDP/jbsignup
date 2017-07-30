@@ -1,0 +1,91 @@
+
+
+#extend("base")
+
+#export("head") {
+<title>Family & Dancers</title>
+
+
+}
+
+#export("body") {
+
+<div class="uk-visible" uk-sticky>
+<nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
+<div class="uk-navbar-left"><a href="#"> Dancers</a></div>
+<div class="uk-navbar-right"></div>
+</nav>
+</div>
+
+<div class="uk-padding-small"></div>
+
+<div class="container">
+<div uk-grid>
+<div class="uk-width-1-4"></div>
+<div class="uk-width-1-2">
+
+<div class="bs-callout bs-callout-uikit">
+<h4>Dancers</h4>
+
+Please enter the details of the dancers in your family.
+
+</div>
+
+#if(warning){
+<div class="bs-callout bs-callout-warning">
+<h4>Warning</h4>
+#(warning)
+</div>
+}
+
+#if(errors){
+<div class="bs-callout bs-callout-danger">
+<h4>Errors have occurred!</h4>
+#(errors)
+</div>
+}
+<div class="uk-padding-small"></div>
+
+<table class="uk-table uk-table-divider uk-table-hover">
+<thead>
+    <tr>
+            <th>First Name</th><th>Last Name</th><th>Date of Birth</th><th>Gender</th><th>Action</th>
+    </tr>
+</thead>
+#loop(family, "members") {
+
+    <tr>
+        <td>#(members.FirstName)</td>
+        <td>#(members.LastName)</td>
+        <td>#(members.FormattedDoB)</td>
+        <td>#(members.Gender)</td>
+        <td>
+            <a href="/family/#(familyid)/dancer/#(members.id)" uk-icon="icon: pencil"></a>
+            <a href="/family/#(familyid)/dancer/#(members.id)/delete" uk-icon="icon: trash"></a>
+</tr>
+
+}
+</table>
+
+<a href="/family/#(familyid)/dancer" class="uk-button uk-button-default">Add Another Dancer</a>
+
+<form action="" method="POST" class="uk-form-stacked">
+
+
+
+
+<div class="uk-margin">
+
+
+
+
+<button type="submit" class="uk-button uk-button-primary uk-align-right">Save Dancer</button>
+
+</form>
+</div>
+
+<div class="uk-width-1-4"></div>
+</div>
+
+
+}

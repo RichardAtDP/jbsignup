@@ -1,0 +1,12 @@
+
+{
+    "lessons": ["CLASSIQUE1","CLASSIQUE2"],
+    "CLASSIQUE1":{
+        "en":"Ballet Classic 1",
+        "fr":"Ballet Classique 1"
+    },
+    "CLASSIQUE2":{
+        "en":"Ballet Classic 2",
+        "fr":"Ballet Classique 2"
+    },
+}

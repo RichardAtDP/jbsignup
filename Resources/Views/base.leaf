@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    #import("head")
+
+
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery-ui.min.js"></script>
+    <link href="/jquery/jquery-ui.theme.min.css" rel="stylesheet">
+    <link href="/jquery/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="/jquery/jquery-ui.min.css" rel="stylesheet">
+
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
+    <link href="/css/uikit.min.css" rel="stylesheet">
+
+    <link href="/css/signup.css" rel="stylesheet">
+
+    <script src="/date/moment.min.js"></script>
+    <script src="/date/pikaday.js"></script>
+    <link href="/date/css/pikaday.css" rel="stylesheet">
+   
+    <link href="/date/css/theme.css" rel="stylesheet">
+    <link href="/date/css/triangle.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+    #import("body")
+</body>
+</html>
