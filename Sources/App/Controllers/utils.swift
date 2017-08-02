@@ -7,6 +7,8 @@
 
 import Foundation
 import Vapor
+import FluentProvider
+
 
 extension String {
   
@@ -33,3 +35,30 @@ extension Date {
     
     
 }
+
+extension String
+{
+    var isNumeric: Bool
+    {
+        let range = self.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted)
+        return (range == nil)
+    }
+}
+
+
+func lessonList(_ info:Droplet) throws -> Array<JSON> {
+    
+    let lessons = info.config["lessons","lessons"]!.array
+    var selectLesson = [JSON]()
+    for lesson in lessons! {
+        var json = JSON()
+        try json.set("key",lesson.string!)
+        try json.set("readable",info.config["lessons",lesson.string!,"en"]!.string!)
+        try json.set("status","")
+        selectLesson.append(json)
+    }
+    return selectLesson
+}
+
+
+

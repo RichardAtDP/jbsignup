@@ -80,7 +80,7 @@ Please enter the details of the dancers in your family.
 
 <script>
     var picker = new Pikaday({ field: document.getElementById('DateOfBirth'),
-                                format: 'YYYY-MM-DD'});
+format: 'YYYY-MM-DD',yearRange:[1975,2014]});
 </script>
 
 <button type="submit" class="uk-button uk-button-primary uk-align-right">Save Dancer</button>

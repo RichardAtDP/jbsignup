@@ -107,3 +107,44 @@ extension dancer: JSONConvertible {
 extension dancer: Timestampable { }
 
 extension dancer: ResponseRepresentable { }
+
+
+func formatLessonList(familyid: Int ,info:Droplet) throws -> Array<JSON> {
+    var selectedLessons = JSON()
+    var dancers = [JSON]()
+    let lessons = info.config["lessons","lessons"]!.array
+    
+    for dancer in try dancer.makeQuery().filter("Family", .equals, familyid).all() {
+        
+        
+        let chosenLessons = try lesson.makeQuery().filter("dancerId",.equals,dancer.id).all()
+        
+        // Create form
+        var form = ""
+        
+        for chosenLesson in chosenLessons {
+            
+            var lessonDetails = ""
+            for lessonKey in lessons! {
+                var checked = ""
+                if lessonKey.string! == chosenLesson.lessonId {checked = "selected"}
+                
+                lessonDetails += "<option value='\(lessonKey.string!)' \(checked)>\(String(describing: info.config["lessons",lessonKey.string!,"en"]!.string!))</option>"
+                
+            }
+            
+            
+            form += "<div uk-grid class='uk-grid-divider'><div class='uk-width-expand@m'><select class='uk-select' name='lesson'>\(lessonDetails)</select></div><div class='uk-width-1-3@m'><input class='uk-input' type='text' placeholder='Sessions per week' name='sessions' value='\(chosenLesson.frequency)'></div><div class='uk-width-1-6@m'><a href='/family/\(familyid)/lesson/\(chosenLesson.id!.int!)/delete' uk-icon='icon: trash'></a></div><input type='hidden' name='dancer' value='\(dancer.id!.string!)'></div>"
+            
+        }
+        
+        // Add form to dancer
+        try selectedLessons.set(dancer.id!.string!,form)
+        var dancerDetails = try dancer.makeJSON()
+        try dancerDetails.set("lessons",form)
+        dancers.append(dancerDetails)
+    }
+    
+    return dancers
+}
+

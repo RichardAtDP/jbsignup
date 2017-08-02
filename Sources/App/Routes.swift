@@ -1,6 +1,8 @@
-	import Vapor
+import Vapor
 
 extension Droplet {
+
+    
     func setupRoutes() throws {
         
         
@@ -173,29 +175,42 @@ extension Droplet {
             guard let familyid = req.parameters["id"]?.int else {
                 throw Abort.badRequest
             }
+            
+            let dancers = try formatLessonList(familyid:familyid, info:self)
 
-            var dancers = [JSON]()
-            for dancer in try dancer.makeQuery().filter("Family", .equals, familyid).all() {
-                dancers.append(try dancer.makeJSON())
+            return try self.view.make("lessons", ["familyid":familyid,"dancers":dancers,"selectLesson":lessonList(self)])
+        }
+        
+        post("family",":id","lessons") { req in
+        
+            guard let familyid = req.parameters["id"]?.string else {
+                throw Abort.badRequest
             }
             
-            let lessons = self.config["lessons","lessons"]!.array
+            try saveLesson(proData:req.data, familyid:familyid)
+           
+            return "print"
+        }
+        
+        get("family",":id", "lesson",":lessonId","delete") { req in
             
-            var selectLesson = [JSON]()
-            for lesson in lessons! {
-                print(lesson.string!)
-                print(self.config["lessons",lesson.string!,"en"]!.string!)
-                var json = JSON()
-                try json.set("key",lesson.string!)
-                try json.set("readable",self.config["lessons",lesson.string!,"en"]!.string!)
-                try json.set("status","")
-                selectLesson.append(json)
-                
+            guard let familyid = req.parameters["id"]?.string else {
+                throw Abort.badRequest
             }
             
-            return try self.view.make("lessons", ["familyid":familyid,"selectLesson":selectLesson,"dancers":dancers])
+            guard let lessonid = req.parameters["lessonId"]?.int else {
+                throw Abort.badRequest
+            }
+            
+            try lesson.find(lessonid)?.delete()
+            
+            return Response(redirect: "/family/\(String(describing: familyid))/lessons")
         }
         
         try resource("posts", PostController.self)
     }
+    
+    
+
+    
 }

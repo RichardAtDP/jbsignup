@@ -99,3 +99,58 @@ extension lesson: JSONConvertible {
 extension lesson: Timestampable { }
 
 extension lesson: ResponseRepresentable { }
+
+
+func saveLesson(proData:Content, familyid:String) throws {
+    
+    // Swift freaks if it receives a string rather than an array, so make arrays.
+    var lessonList = [Node]()
+    var frequency = [Node]()
+    var dancerId = [Node]()
+    if proData["lesson"]!.array == nil {
+        lessonList = [proData["lesson"]!.string!.makeNode(in: nil)]
+        frequency = [proData["sessions"]!.int!.makeNode(in: nil)]
+        dancerId = [proData["dancer"]!.string!.makeNode(in: nil)]
+        
+    } else {
+        lessonList = proData["lesson"]!.array!
+        frequency = proData["sessions"]!.array!
+        dancerId = proData["dancer"]!.array!
+    }
+    
+    // Go through each item and save or update
+    var i = 0
+    for chosenLesson in lessonList {
+        
+        if frequency[i].string!.isNumber {
+            
+            let query = try lesson.makeQuery()
+            try query.filter("lessonId",.equals,chosenLesson.string!)
+            try query.filter("dancerId",.equals,dancerId[i].string!)
+            try query.filter("familyId",.equals,familyid)
+            
+            if try query.count() == 0 {
+                // New
+                let Lesson = try lesson(lessonId:chosenLesson.string!, frequency:frequency[i].int!, familyId:familyid, dancerId:dancerId[i].string!)
+                
+                try Lesson.save()
+            } else {
+                // Update existing
+                let Lesson = try lesson.find(query.first()?.id)
+                Lesson?.lessonId = chosenLesson.string!
+                Lesson?.dancerId = dancerId[i].string!
+                Lesson?.familyId = familyid
+                Lesson?.frequency = frequency[i].int!
+                
+                try Lesson?.save()
+            }
+            
+        }
+        
+        
+        
+        i += 1
+    }
+    
+    
+}
