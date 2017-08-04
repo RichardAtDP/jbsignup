@@ -1,5 +1,7 @@
 import Vapor
 
+var lang = "en"
+
 extension Droplet {
 
     
@@ -8,7 +10,9 @@ extension Droplet {
         
         get("inscription") { req in
             
-            return try self.view.make("inscription")
+            setLang(req.data["lang"])
+            
+            return try self.view.make("inscription",["label":self.config["labels",lang]])
         
         }
         
@@ -29,8 +33,7 @@ extension Droplet {
             
         }
         
-        
-        get("description") { req in return req.description }
+
         
         
         get("family", ":id", "dancer") {req in
@@ -41,7 +44,7 @@ extension Droplet {
             
             
             
-         return try self.view.make("dancer")
+         return try self.view.make("dancer",["label":self.config["labels",lang]])
             
         }
         
@@ -68,7 +71,7 @@ extension Droplet {
                 
             } else {
 
-                return try self.view.make("dancer", ["errors":status])
+                return try self.view.make("dancer", ["errors":status,"label":self.config["labels",lang]])
             }
         }
         
@@ -93,7 +96,7 @@ extension Droplet {
                 try Dancer.set("female", true)
             }
             
-            return try self.view.make("dancer", ["Dancer": Dancer])
+            return try self.view.make("dancer", ["Dancer": Dancer,"label":self.config["labels",lang]])
             
         }
         
@@ -126,7 +129,7 @@ extension Droplet {
                 return Response(redirect: "/family/\(String(describing: familyid))")
                 
             } else {
-                return try self.view.make("dancer", ["errors":status])
+                return try self.view.make("dancer", ["errors":status,"label":self.config["labels",lang]])
             }
         }
         
@@ -167,7 +170,7 @@ extension Droplet {
                 familyMembers.append(dancer)
             }
             
-            return try self.view.make("family", ["family":familyMembers, "familyid":familyid])
+            return try self.view.make("family", ["family":familyMembers, "familyid":familyid, "label":self.config["labels",lang]])
         }
         
         get("family",":id","lessons") { req in
@@ -178,7 +181,7 @@ extension Droplet {
             
             let dancers = try formatLessonList(familyid:familyid, info:self)
 
-            return try self.view.make("lessons", ["familyid":familyid,"dancers":dancers,"selectLesson":lessonList(self)])
+            return try self.view.make("lessons", ["familyid":familyid,"dancers":dancers,"selectLesson":lessonList(self), "label":self.config["labels",lang]])
         }
         
         post("family",":id","lessons") { req in
@@ -189,7 +192,7 @@ extension Droplet {
             
             try saveLesson(proData:req.data, familyid:familyid)
            
-            return "print"
+            return try self.view.make("confirm", ["familyid":familyid,"label":self.config["labels",lang]])
         }
         
         get("family",":id", "lesson",":lessonId","delete") { req in
@@ -207,10 +210,41 @@ extension Droplet {
             return Response(redirect: "/family/\(String(describing: familyid))/lessons")
         }
         
+        get("print",":printKey") { req in
+            
+            guard let printKey = req.parameters["printKey"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            guard let Family = try family.makeQuery().filter("printKey",.equals,printKey).first() else {
+                throw Abort.badRequest
+            }
+            
+            
+            let dancers = try dancer.makeQuery().filter("Family",.equals,Family.id!.string!).all()
+            
+            let lessons = try addLessonName(drop: self, familyId: Family.id!.string!, lang:lang)
+
+
+            
+            return try self.view.make("print",["family":Family.makeJSON(), "dancers":dancers.makeJSON(), "lessons":lessons, "config":self.config["lessons"]!.makeNode(in:nil), "label":self.config["labels",lang]])
+        }
+        
         try resource("posts", PostController.self)
     }
     
     
 
     
+}
+
+func setLang(_ content:Node?) {
+    
+    if content?.string != nil {
+        
+        if ["en","fr"].contains(content!.string!)  {
+            lang = (content!.string!)
+            print(lang)
+        }
+    }
 }

@@ -3,7 +3,7 @@
 #extend("base")
 
 #export("head") {
-<title>Select Lessons</title>
+<title>#(label.select_lessons)</title>
 
 
 }
@@ -12,7 +12,7 @@
 
 <div class="uk-visible" uk-sticky>
 <nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
-<div class="uk-navbar-left"><a href="#"> Select Lessions</a></div>
+<div class="uk-navbar-left"><a href="#"> #(label.select_lessons)</a></div>
 <div class="uk-navbar-right"></div>
 </nav>
 </div>
@@ -25,22 +25,22 @@
 <div class="uk-width-1-2">
 
 <div class="bs-callout bs-callout-uikit">
-<h4>Lessons</h4>
+<h4>#(label.select_lessons)</h4>
 
-Select the lessons you wish to take.
+#(label.select_lessons_instruction)
 
 </div>
 
 #if(warning){
 <div class="bs-callout bs-callout-warning">
-<h4>Warning</h4>
+<h4>#(label.warning)</h4>
 #(warning)
 </div>
 }
 
 #if(errors){
 <div class="bs-callout bs-callout-danger">
-<h4>Errors have occurred!</h4>
+<h4>#(label.error)</h4>
 #(errors)
 </div>
 }
@@ -62,7 +62,7 @@ Select the lessons you wish to take.
 
 </ul>
 
-<button type="submit" class="uk-button uk-button-primary uk-align-right">Save Lesson Choices</button>
+<button type="submit" class="uk-button uk-button-primary uk-align-right">#(label.save_lesson_choices)</button>
 
 </form>
 </div>

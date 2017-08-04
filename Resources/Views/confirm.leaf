@@ -1,0 +1,56 @@
+
+
+#extend("base")
+
+#export("head") {
+<title>#(label.confirm_title)</title>
+
+
+}
+
+#export("body") {
+
+<div class="uk-visible" uk-sticky>
+<nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
+<div class="uk-navbar-left"><a href="#"> #(label.confirm_title)</a></div>
+<div class="uk-navbar-right"></div>
+</nav>
+</div>
+
+<div class="uk-padding-small"></div>
+
+<div class="container">
+<div uk-grid>
+<div class="uk-width-1-4"></div>
+<div class="uk-width-1-2">
+
+<div class="bs-callout bs-callout-uikit">
+<h4>#(label.next_steps)</h4>
+
+#(label.next_steps_instruction)
+
+</div>
+
+#if(warning){
+<div class="bs-callout bs-callout-warning">
+<h4>#(label.warning)</h4>
+#(warning)
+</div>
+}
+
+#if(errors){
+<div class="bs-callout bs-callout-danger">
+<h4>#(label.error)</h4>
+#(errors)
+</div>
+}
+<div class="uk-padding-small"></div>
+
+Print
+</div>
+
+<div class="uk-width-1-4"></div>
+</div>
+
+
+}

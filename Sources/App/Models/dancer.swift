@@ -97,7 +97,7 @@ extension dancer: JSONConvertible {
         try json.set("FirstName", FirstName)
         try json.set("LastName", LastName)
         try json.set("Family", Family)
-        try json.set("DateOfBirth", DateOfBirth)
+        try json.set("DateOfBirth", DateOfBirth.ISODate())
         try json.set("Gender", Gender)
 
         return json

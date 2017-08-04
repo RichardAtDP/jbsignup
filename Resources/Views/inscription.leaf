@@ -11,7 +11,7 @@
 <div class="uk-visible" uk-sticky>
 <nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
 <div class="uk-navbar-left"><a href="#"> Inscription</a></div>
-<div class="uk-navbar-right"></div>
+<div class="uk-navbar-right"><div class="uk-align-right"><a href="?lang=en">en</a> | <a href="?lang=fr">fr</a></div></div>
 </nav>
 </div>
 
@@ -23,30 +23,30 @@
         <div class="uk-width-1-2">
 
             <div class="bs-callout bs-callout-uikit">
-                <h4>Family Details</h4>
+                <h4>#(label.family_details)</h4>
 
-                Please enter your email address to begin the Inscription.
+                #(label.family_details_instruction)
 
             </div>
 
 #if(warning){
             <div class="bs-callout bs-callout-warning">
-                <h4>Warning</h4>
+                <h4>#(label.warning)</h4>
                 #(warning)
             </div>
 }
 
 #if(errors){
             <div class="bs-callout bs-callout-danger">
-                <h4>Errors have occurred!</h4>
+                <h4>#(label.error)</h4>
                 #(errors)
             </div>
 }
             <div class="uk-padding-small"></div>
             <form action="" method="POST" class="uk-form-stacked">
             <div class="uk-margin">
-                <label for="exampleInputEmail1" class="uk-form-label">Email address</label>
-                <input type="email" class="uk-input" name="email" id="exampleInputEmail1" placeholder="Email" maxlength=25>
+                <label for="exampleInputEmail1" class="uk-form-label">#(label.email_address)</label>
+                <input type="email" class="uk-input" name="email" id="exampleInputEmail1" placeholder="#(label.email_address)" maxlength=25>
             </div>
 
 
@@ -54,7 +54,7 @@
 
 
 
-            <button type="submit" class="uk-button uk-button-primary uk-align-right">Next</button>
+            <button type="submit" class="uk-button uk-button-primary uk-align-right">#(label.next)</button>
 
             </form>
         </div>

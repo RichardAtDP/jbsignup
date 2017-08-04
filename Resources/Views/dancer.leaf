@@ -2,7 +2,7 @@
 #extend("base")
 
 #export("head") {
-<title>Family & Dancers</title>
+<title>#(label.dancers_title)</title>
 
 
 }
@@ -11,7 +11,7 @@
 
 <div class="uk-visible" uk-sticky>
 <nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
-<div class="uk-navbar-left"><a href="#"> Dancers</a></div>
+<div class="uk-navbar-left"><a href="#"> #(label.dancers_title)</a></div>
 <div class="uk-navbar-right"></div>
 </nav>
 </div>
@@ -24,22 +24,22 @@
 <div class="uk-width-1-2">
 
 <div class="bs-callout bs-callout-uikit">
-<h4>Dancers</h4>
+<h4>#(label.dancers_title)</h4>
 
-Please enter the details of the dancers in your family.
+#(label.dancers_instruction)
 
 </div>
 
 #if(warning){
 <div class="bs-callout bs-callout-warning">
-<h4>Warning</h4>
+<h4>#(label.warning)</h4>
 #(warning)
 </div>
 }
 
 #if(errors){
 <div class="bs-callout bs-callout-danger">
-<h4>Errors have occurred!</h4>
+<h4>#(label.error)</h4>
 #(errors)
 </div>
 }
@@ -50,30 +50,30 @@ Please enter the details of the dancers in your family.
 
 
 <div class="uk-margin">
-    <label for="FirstName" class="uk-form-label">First Name</label>
-<input type="text" class="uk-input #if(errors.FirstName) {uk-form-danger}" name="FirstName" id="FirstName" placeholder="First Name" maxlength=50 value="#(Dancer.FirstName)">
+    <label for="FirstName" class="uk-form-label">#(label.first_name)</label>
+<input type="text" class="uk-input #if(errors.FirstName) {uk-form-danger}" name="FirstName" id="FirstName" placeholder="#(label.first_name)" maxlength=50 value="#(Dancer.FirstName)">
     #if(errors.FirstName) { <span class="uk-text-danger">#(errors.FirstName.error)</span>}
 
 
 </div>
 <div class="uk-margin">
-    <label for="LastName" class="uk-form-label">Last Name</label>
-    <input type="text" class="uk-input #if(errors.LastName) {uk-form-danger}" name="LastName" id="LastName" placeholder="Last Name" maxlength=50 value="#(Dancer.LastName)">
+    <label for="LastName" class="uk-form-label">#(label.last_name)</label>
+    <input type="text" class="uk-input #if(errors.LastName) {uk-form-danger}" name="LastName" id="LastName" placeholder="#(label.last_name)" maxlength=50 value="#(Dancer.LastName)">
     #if(errors.LastName) { <span class="uk-text-danger">#(errors.LastName.error)</span>}
 </div>
 
 
 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-    <label for="gender" class="uk-form-label">Gender</label>
-    <label><input class="uk-radio" type="radio" name="gender" value="male" #if(Dancer.male) {checked}> Male</label>
-<label><input class="uk-radio" type="radio" name="gender" value="female" #if(Dancer.female) {checked}> Female</label>
+    <label for="gender" class="uk-form-label">#(label.gender)</label>
+    <label><input class="uk-radio" type="radio" name="gender" value="male" #if(Dancer.male) {checked}> #(label.male)</label>
+<label><input class="uk-radio" type="radio" name="gender" value="female" #if(Dancer.female) {checked}> #(label.female)</label>
 </div>
 
 
 
 <div class="uk-margin">
-    <label for="DateOfBirth" class="uk-form-label">Date of Birth</label>
-    <input type="text" class="uk-input  #if(errors.DateOfBirth) {uk-form-danger}" name="DateOfBirth" id="DateOfBirth" placeholder="Date of Birth" maxlength=10 value="#(Dancer.DateOfBirth)">
+    <label for="DateOfBirth" class="uk-form-label">#(label.date_of_birth)</label>
+    <input type="text" class="uk-input  #if(errors.DateOfBirth) {uk-form-danger}" name="DateOfBirth" id="DateOfBirth" placeholder="#(label.date_of_birth)" maxlength=10 value="#(Dancer.DateOfBirth)">
     #if(errors.DateOfBirth) { <span class="uk-text-danger">#(errors.DateOfBirth.error)</span>}
 </div>
 
@@ -83,7 +83,7 @@ Please enter the details of the dancers in your family.
 format: 'YYYY-MM-DD',yearRange:[1975,2014]});
 </script>
 
-<button type="submit" class="uk-button uk-button-primary uk-align-right">Save Dancer</button>
+<button type="submit" class="uk-button uk-button-primary uk-align-right">#(label.save_dancer)</button>
 
 </form>
 </div>
