@@ -16,16 +16,18 @@ final class dancer: Model {
     var Family: String
     var DateOfBirth: Date
     var Gender: String
+    var Allergies: String
     
     let storage = Storage()
     
-    init(FirstName:String, LastName:String, Family:String, DateOfBirth:Date, Gender:String) throws {
+    init(FirstName:String, LastName:String, Family:String, DateOfBirth:Date, Gender:String, Allergies: String) throws {
         
         self.FirstName = FirstName
         self.LastName = LastName
         self.Family = Family
         self.DateOfBirth = DateOfBirth
         self.Gender = Gender
+        self.Allergies = Allergies
     }
 
     
@@ -35,6 +37,7 @@ final class dancer: Model {
          Family = try row.get("Family")
          DateOfBirth = try row.get("DateOfBirth")
          Gender = try row.get("Gender")
+         Allergies = try row.get("Allergies")
         
     }
 
@@ -46,6 +49,7 @@ final class dancer: Model {
         try row.set("LastName", LastName)
         try row.set("DateOfBirth", DateOfBirth)
         try row.set("Gender", Gender)
+        try row.set("Allergies", Allergies)
         
         return row
 
@@ -63,6 +67,7 @@ extension dancer: Preparation {
             dancer.string("Family")
             dancer.date("DateOfBirth")
             dancer.string("Gender")
+            dancer.string("Allergies")
 
             
             
@@ -85,7 +90,8 @@ extension dancer: JSONConvertible {
             LastName: json.get("LastName"),
             Family: json.get("Family"),
             DateOfBirth: json.get("DateOfBirth"),
-            Gender: json.get("Gender")
+            Gender: json.get("Gender"),
+            Allergies: json.get("Allergies")
 
             
         )
@@ -98,7 +104,9 @@ extension dancer: JSONConvertible {
         try json.set("LastName", LastName)
         try json.set("Family", Family)
         try json.set("DateOfBirth", DateOfBirth.ISODate())
+        try json.set("age", DateOfBirth.age())
         try json.set("Gender", Gender)
+        try json.set("Allergies", Allergies)
 
         return json
     }

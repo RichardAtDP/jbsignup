@@ -17,6 +17,8 @@ extension String {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "YYYY-MM-DD"
 
+            print(dateFormatter.date(from: self)!)
+        
             return dateFormatter.date(from: self)!
     }
 
@@ -33,6 +35,16 @@ extension Date {
         
     }
     
+    func age () -> Int {
+        
+        let currentCalendar = Calendar.current
+        
+        guard let start = currentCalendar.ordinality(of: .year, in: .era, for: self) else { return 0 }
+        guard let end = currentCalendar.ordinality(of: .year, in: .era, for: Date()) else { return 0 }
+        
+        return end - start
+        
+    }
     
 }
 

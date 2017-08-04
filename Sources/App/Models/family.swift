@@ -8,6 +8,7 @@
 import Foundation
 import Vapor
 import FluentProvider
+import SMTP
 
 final class family: Model {
     
@@ -86,3 +87,29 @@ extension family: JSONConvertible {
 extension family: Timestampable { }
 
 extension family: ResponseRepresentable { }
+
+func sendEmail(familyId:String, Template:String, drop:Droplet) throws {
+    
+    var subject = ""
+    var body = ""
+    
+    let Family = try family.find(familyId)
+    
+    if Template == "PRINT" {
+        
+        body = "Thank you for sending this email. You can retrieve your stuff here: http://0.0.0.0:8080/print/\(Family!.printKey)"
+        
+        subject = "Your Inscription"
+    }
+    
+
+    if Template == "EMAIL_EXISTS" {
+        
+        body = "You can retrieve your inscription here: http://0.0.0.0:8080/restart/\(Family!.printKey)"
+        
+        subject = "Your Inscription to Junior Ballet's 2017 Fall Season"
+    }
+    
+    let email = Email(from:"info@junior-ballet.com", to: Family!.email, subject: subject, body: body)
+    try drop.mail.send(email)
+}

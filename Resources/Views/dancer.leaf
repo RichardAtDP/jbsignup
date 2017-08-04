@@ -83,6 +83,13 @@
 format: 'YYYY-MM-DD',yearRange:[1975,2014]});
 </script>
 
+
+<div class="uk-margin">
+<label for="Allergies" class="uk-form-label">#(label.health)</label>
+<input type="text" class="uk-input  #if(errors.Allergies) {uk-form-danger}" name="Allergies" id="Allergies" placeholder="#(label.health)" maxlength=255 value="#(Dancer.Allergies)">
+#if(errors.Allergies) { <span class="uk-text-danger">#(errors.Allergies.error)</span>}
+</div>
+
 <button type="submit" class="uk-button uk-button-primary uk-align-right">#(label.save_dancer)</button>
 
 </form>

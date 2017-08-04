@@ -1,4 +1,5 @@
 import Vapor
+import Sessions
 
 var lang = "en"
 
@@ -12,7 +13,14 @@ extension Droplet {
             
             setLang(req.data["lang"])
             
-            return try self.view.make("inscription",["label":self.config["labels",lang]])
+            var error:String?
+            
+            if req.data["error"] != nil {
+                error = self.config["labels",lang,req.data["error"]!.string!]!.string
+            }
+            
+            
+            return try self.view.make("inscription",["label":self.config["labels",lang] as Any, "errors":error as Any])
         
         }
         
@@ -23,13 +31,23 @@ extension Droplet {
             if (emailProvided?.range(of:"@")==nil || emailProvided?.range(of:".")==nil) {
                 
                     return Response(redirect: "/inscription?error=INVALID_EMAIL")}
-            else {
+           
+            let Fam = try family.makeQuery().filter("email", .equals, emailProvided)
+            if try Fam.count() > 0 {
+                
+                try sendEmail(familyId: (try Fam.first()!.id?.string!)!, Template: "EMAIL_EXISTS", drop: self)
+                    return Response(redirect: "/inscription?error=EMAIL_EXISTS")
+            }
+                
                 
                 let Family = try family(email:emailProvided!)
                 try Family.save()
                 
+                let session = try req.assertSession()
+                try session.data.set("email", emailProvided)
+                
                 return Response(redirect: "/family/\(String(describing: Family.id!.int!))/dancer")
-            }
+        
             
         }
         
@@ -42,7 +60,10 @@ extension Droplet {
                 throw Abort.badRequest
             }
             
-            
+            let session = try req.assertSession()
+            if try family.makeQuery().filter("email",.equals,session.data["email"]!.string!).first()!.id!.int! != familyid  {
+                throw Abort.badRequest
+            }
             
          return try self.view.make("dancer",["label":self.config["labels",lang]])
             
@@ -54,6 +75,12 @@ extension Droplet {
                 throw Abort.badRequest
             }
             
+            let session = try req.assertSession()
+            if try family.makeQuery().filter("email",.equals,session.data["email"]!.string!).first()!.id!.string! != familyid  {
+                throw Abort.badRequest
+            }
+            
+            
             let status = validate().verify(data: req.data, contentType: "dancer")
             
             if status["status"] == "ok" {
@@ -63,7 +90,9 @@ extension Droplet {
                     , LastName:(req.data["LastName"]?.string!)!
                         , Family:familyid
                     , DateOfBirth:(req.data["DateOfBirth"]?.string?.toDate())!
-                    , Gender:(req.data["gender"]?.string!)!)
+                    , Gender:(req.data["gender"]?.string!)!
+                    , Allergies:(req.data["Allergies"]?.string!)!
+                )
                 
                 try Dancer.save()
                 
@@ -79,6 +108,11 @@ extension Droplet {
         get("family", ":id", "dancer", ":dancerId") {req in
             
             guard let familyid = req.parameters["id"]?.int else {
+                throw Abort.badRequest
+            }
+            
+            let session = try req.assertSession()
+            if try family.makeQuery().filter("email",.equals,session.data["email"]!.string!).first()!.id!.int! != familyid  {
                 throw Abort.badRequest
             }
             
@@ -104,6 +138,11 @@ extension Droplet {
         post("family", ":id", "dancer", ":dancerId") {req in
             
             guard let familyid = req.parameters["id"]?.int else {
+                throw Abort.badRequest
+            }
+            
+            let session = try req.assertSession()
+            if try family.makeQuery().filter("email",.equals,session.data["email"]!.string!).first()!.id!.int! != familyid  {
                 throw Abort.badRequest
             }
             
@@ -140,6 +179,11 @@ extension Droplet {
                 throw Abort.badRequest
             }
             
+            let session = try req.assertSession()
+            if try family.makeQuery().filter("email",.equals,session.data["email"]!.string!).first()!.id!.int! != familyid  {
+                throw Abort.badRequest
+            }
+            
             guard let dancerid = req.parameters["dancerId"]?.int! else {
                 throw Abort.badRequest
             }
@@ -159,23 +203,24 @@ extension Droplet {
                 throw Abort.badRequest
             }
             
-            var familyMembers = [JSON]()
-            
-            for member in try dancer.makeQuery().filter("Family", .equals ,familyid).all() {
-                
-                var dancer = try member.makeJSON()
-                let FormattedDate: Date = try dancer.get("DateOfBirth")
-                try dancer.set("FormattedDoB", FormattedDate.ISODate())
-                
-                familyMembers.append(dancer)
+            let session = try req.assertSession()
+            if (try family.makeQuery().filter("email",.equals,session.data["email"]?.string).first()?.id?.int ?? 0)! != familyid  {
+                throw Abort.badRequest
             }
             
+            let familyMembers =  try dancer.makeQuery().filter("Family", .equals ,familyid).all().makeJSON()
+                
             return try self.view.make("family", ["family":familyMembers, "familyid":familyid, "label":self.config["labels",lang]])
         }
         
         get("family",":id","lessons") { req in
             
             guard let familyid = req.parameters["id"]?.int else {
+                throw Abort.badRequest
+            }
+            
+            let session = try req.assertSession()
+            if (try family.makeQuery().filter("email",.equals,session.data["email"]?.string).first()?.id?.int ?? 0)! != familyid  {
                 throw Abort.badRequest
             }
             
@@ -190,14 +235,26 @@ extension Droplet {
                 throw Abort.badRequest
             }
             
+            let session = try req.assertSession()
+            if (try family.makeQuery().filter("email",.equals,session.data["email"]?.string).first()?.id?.string ?? "0")! != familyid  {
+                throw Abort.badRequest
+            }
+            
             try saveLesson(proData:req.data, familyid:familyid)
            
+            try sendEmail(familyId: familyid, Template: "PRINT", drop: self)
+            
             return try self.view.make("confirm", ["familyid":familyid,"label":self.config["labels",lang]])
         }
         
         get("family",":id", "lesson",":lessonId","delete") { req in
             
             guard let familyid = req.parameters["id"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            let session = try req.assertSession()
+            if (try family.makeQuery().filter("email",.equals,session.data["email"]?.string).first()?.id?.string ?? "0")! != familyid  {
                 throw Abort.badRequest
             }
             
@@ -228,6 +285,22 @@ extension Droplet {
 
             
             return try self.view.make("print",["family":Family.makeJSON(), "dancers":dancers.makeJSON(), "lessons":lessons, "config":self.config["lessons"]!.makeNode(in:nil), "label":self.config["labels",lang]])
+        }
+        
+        get("restart",":printKey") { req in
+            
+            guard let printKey = req.parameters["printKey"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            guard let Family = try family.makeQuery().filter("printKey",.equals,printKey).first() else {
+                throw Abort.badRequest
+            }
+            
+            let session = try req.assertSession()
+            try session.data.set("email", Family.email)
+            
+            return Response(redirect: "/family/\(String(describing: Family.id!.string!))")
         }
         
         try resource("posts", PostController.self)

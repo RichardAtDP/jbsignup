@@ -15,6 +15,7 @@ extension Config {
         try setupPreparations()
         
          addConfigurable(mail: SendGrid.init, name: "sendgrid")
+         
     }
     
     /// Configure providers
