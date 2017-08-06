@@ -102,6 +102,7 @@ func randomString(length: Int) -> String {
     
     var randomString = ""
     
+    
     for _ in 0 ..< length {
         let rand = makeRandom(min: 0, max: 61)
         let index = letters.characters.index(letters.startIndex, offsetBy: rand)
