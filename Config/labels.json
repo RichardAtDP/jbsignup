@@ -68,7 +68,7 @@
     },
     "fr":{
         "family_details":"Détail de la famille",
-        "family_details_instruction":"Veuillez commencer par nous fournir votre adresse courriel afin que nous puissons vous envoyer une copie de votre inscription.",
+        "family_details_instruction":"Veuillez commencer par nous fournir votre adresse courriel afin que nous puissions vous envoyer une copie de votre inscription.",
         "email_address":"Adresse courriel",
         "next":"SUIVANT",
         "warning":"Attention",
