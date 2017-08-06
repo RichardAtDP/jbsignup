@@ -12,7 +12,8 @@ let package = Package(
         .Package(url: "https://github.com/vapor/leaf-provider.git", majorVersion: 1),
         .Package(url: "https://github.com/vapor/auth-provider.git", majorVersion: 1),
         .Package(url: "https://github.com/vapor/mysql-provider.git", majorVersion: 2),
-        .Package(url: "https://github.com/vapor-community/sendgrid-provider.git", majorVersion: 2)
+        .Package(url: "https://github.com/vapor-community/sendgrid-provider.git", majorVersion: 2),
+        .Package(url: "https://github.com/vapor/random.git", majorVersion: 1)
     ],
     exclude: [
         "Config",
@@ -22,4 +23,5 @@ let package = Package(
         "Resources",
     ]
 )
+
 

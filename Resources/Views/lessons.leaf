@@ -49,7 +49,7 @@
                 <fieldset class="uk-fieldset uk-margin-top" id="#(dancer.id)">
                     #raw(dancer.lessons)
                 </fieldset>
-                <a onclick='jQuery("#raw() {#}#(dancer.id)").append(input#(dancer.id).clone());' class="uk-button uk-button-secondary uk-button-small uk-margin-top">Add Lesson</a>
+<a onclick='jQuery("#raw() {#}#(dancer.id)").append(input#(dancer.id).clone());' class="uk-button uk-button-secondary uk-button-small uk-margin-top">#(label.add_lesson)</a>
             </div>
         </li>
 }

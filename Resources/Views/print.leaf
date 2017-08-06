@@ -54,7 +54,7 @@
 
             #equal(lesson.dancerId, dancer.id) {
 
-                <tr><td height="15">#(lesson.Lesson)</td><td></td><td></td></tr>
+                <tr><td height="13">#(lesson.Lesson)</td><td></td><td></td></tr>
             }
    
     }
