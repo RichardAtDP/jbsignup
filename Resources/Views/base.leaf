@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    #import("head")
+
 
 
     <script src="/jquery/jquery.min.js"></script>
@@ -23,6 +23,7 @@
     <link href="/date/css/theme.css" rel="stylesheet">
     <link href="/date/css/triangle.css" rel="stylesheet">
 
+    #import("head")
 </head>
 
 

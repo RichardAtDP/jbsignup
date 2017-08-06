@@ -20,7 +20,7 @@ extension Droplet {
             }
             
             
-            return try self.view.make("inscription",["label":self.config["labels",lang] as Any, "errors":error as Any])
+            return try self.view.make("inscription",["label":self.config["labels",lang] as Any, "errors":error as Any, "lang":lang])
         
         }
         
@@ -38,15 +38,25 @@ extension Droplet {
                 try sendEmail(familyId: (try Fam.first()!.id?.string!)!, Template: "EMAIL_EXISTS", drop: self)
                     return Response(redirect: "/inscription?error=EMAIL_EXISTS")
             }
-                
-                
-                let Family = try family(email:emailProvided!)
+            
+          
+            let status = validate().verify(data: req.data, contentType: "inscription")
+            
+            if status["status"] == "ok" {
+            
+                let Family = try family(email: emailProvided!, CASL:req.data["CASL"]?.string,street: (req.data["street"]?.string)!, appartment: req.data["appartment"]?.string, city: (req.data["city"]?.string)!, postcode: (req.data["postcode"]?.string)!, homephone: req.data["homephone"]?.string, cellphone: req.data["cellphone"]?.string, emergencyContact: (req.data["emergencyContact"]?.string)!,how_hear:req.data["how_hear"]?.string,photos:req.data["photos"]?.string,lang:lang)
                 try Family.save()
                 
                 let session = try req.assertSession()
                 try session.data.set("email", emailProvided)
-                
+        
+            
                 return Response(redirect: "/family/\(String(describing: Family.id!.int!))/dancer")
+                
+             } else {
+                
+                return try self.view.make("inscription", ["errors":status,"label":self.config["labels",lang], "lang":lang])
+        }
         
             
         }
@@ -65,7 +75,11 @@ extension Droplet {
                 throw Abort.badRequest
             }
             
-         return try self.view.make("dancer",["label":self.config["labels",lang]])
+            // Set default gender value
+            var setGender = JSON()
+            try setGender.set("female", "on")
+            
+            return try self.view.make("dancer",["label":self.config["labels",lang],"Dancer":setGender, "lang":lang])
             
         }
         
@@ -91,7 +105,7 @@ extension Droplet {
                         , Family:familyid
                     , DateOfBirth:(req.data["DateOfBirth"]?.string?.toDate())!
                     , Gender:(req.data["gender"]?.string!)!
-                    , Allergies:(req.data["Allergies"]?.string!)!
+                    , Allergies:req.data["Allergies"]?.string
                 )
                 
                 try Dancer.save()
@@ -100,7 +114,7 @@ extension Droplet {
                 
             } else {
 
-                return try self.view.make("dancer", ["errors":status,"label":self.config["labels",lang]])
+                return try self.view.make("dancer", ["errors":status,"label":self.config["labels",lang], "lang":lang])
             }
         }
         
@@ -130,7 +144,7 @@ extension Droplet {
                 try Dancer.set("female", true)
             }
             
-            return try self.view.make("dancer", ["Dancer": Dancer,"label":self.config["labels",lang]])
+            return try self.view.make("dancer", ["Dancer": Dancer,"label":self.config["labels",lang], "lang":lang])
             
         }
         
@@ -162,13 +176,14 @@ extension Droplet {
                 Dancer.LastName = (req.data["LastName"]?.string!)!
                 Dancer.Gender = (req.data["gender"]?.string!)!
                 Dancer.DateOfBirth = (req.data["DateOfBirth"]?.string?.toDate())!
+                Dancer.Allergies = req.data["Allergies"]?.string
                 
                 try Dancer.save()
                 
                 return Response(redirect: "/family/\(String(describing: familyid))")
                 
             } else {
-                return try self.view.make("dancer", ["errors":status,"label":self.config["labels",lang]])
+                return try self.view.make("dancer", ["errors":status,"label":self.config["labels",lang], "lang":lang])
             }
         }
         
@@ -210,7 +225,7 @@ extension Droplet {
             
             let familyMembers =  try dancer.makeQuery().filter("Family", .equals ,familyid).all().makeJSON()
                 
-            return try self.view.make("family", ["family":familyMembers, "familyid":familyid, "label":self.config["labels",lang]])
+            return try self.view.make("family", ["family":familyMembers, "familyid":familyid, "label":self.config["labels",lang], "lang":lang])
         }
         
         get("family",":id","lessons") { req in
@@ -226,7 +241,7 @@ extension Droplet {
             
             let dancers = try formatLessonList(familyid:familyid, info:self)
 
-            return try self.view.make("lessons", ["familyid":familyid,"dancers":dancers,"selectLesson":lessonList(self), "label":self.config["labels",lang]])
+            return try self.view.make("lessons", ["familyid":familyid,"dancers":dancers,"selectLesson":lessonList(self), "label":self.config["labels",lang], "lang":lang])
         }
         
         post("family",":id","lessons") { req in
@@ -244,7 +259,9 @@ extension Droplet {
            
             try sendEmail(familyId: familyid, Template: "PRINT", drop: self)
             
-            return try self.view.make("confirm", ["familyid":familyid,"label":self.config["labels",lang]])
+            let dancers = try dancer.makeQuery().filter("Family", .equals, familyid).all().makeJSON()
+            
+            return try self.view.make("confirm", ["familyid":familyid,"label":self.config["labels",lang],"dancers":dancers, "lang":lang])
         }
         
         get("family",":id", "lesson",":lessonId","delete") { req in
@@ -273,18 +290,18 @@ extension Droplet {
                 throw Abort.badRequest
             }
             
-            guard let Family = try family.makeQuery().filter("printKey",.equals,printKey).first() else {
+            guard let dancer = try dancer.makeQuery().filter("printKey",.equals,printKey).first() else {
                 throw Abort.badRequest
             }
             
             
-            let dancers = try dancer.makeQuery().filter("Family",.equals,Family.id!.string!).all()
+            let Family = try family.makeQuery().filter("id",.equals,dancer.Family.string).first()
             
-            let lessons = try addLessonName(drop: self, familyId: Family.id!.string!, lang:lang)
-
+            let lessons = try addLessonName(drop: self, familyId: (Family?.id?.string!)!, lang:lang)
+            
 
             
-            return try self.view.make("print",["family":Family.makeJSON(), "dancers":dancers.makeJSON(), "lessons":lessons, "config":self.config["lessons"]!.makeNode(in:nil), "label":self.config["labels",lang]])
+            return try self.view.make("print",["family":Family!.makeJSON(), "dancers":dancer.makeJSON(), "lessons":lessons, "config":self.config["lessons"]!.makeNode(in:nil), "label":self.config["labels",lang]!])
         }
         
         get("restart",":printKey") { req in

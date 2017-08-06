@@ -10,19 +10,13 @@
 
 #export("body") {
 
-<div class="uk-visible" uk-sticky>
-<nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
-<div class="uk-navbar-left"><a href="#"> #(label.select_lessons)</a></div>
-<div class="uk-navbar-right"></div>
-</nav>
-</div>
 
 <div class="uk-padding-small"></div>
 
 <div class="container">
 <div uk-grid>
-<div class="uk-width-1-4"></div>
-<div class="uk-width-1-2">
+<div class="uk-width-1-4 uk-visible@s"></div>
+<div class="uk-width-1-2@s uk-margin-left uk-margin-right">
 
 <div class="bs-callout bs-callout-uikit">
 <h4>#(label.select_lessons)</h4>
@@ -67,7 +61,7 @@
 </form>
 </div>
 
-<div class="uk-width-1-4"></div>
+<div class="uk-width-1-4 uk-visible@s"></div>
 </div>
 
 <script>
@@ -75,7 +69,7 @@
 #loop(dancers,"dancer") {
 line#(dancer.id) = '<div uk-grid class="uk-grid-divider"><div class="uk-width-expand@m"><select class="uk-select" name="lesson">'
         #loop(selectLesson,"lesson") {+'<option value="#(lesson.key)" #(lesson.status)>#(lesson.readable)</option>'}
-        +'</select></div><div class="uk-width-1-3@m"><input class="uk-input" type="text" placeholder="Sessions per week" name="sessions"></div><div class="uk-width-1-6@m"><a href="" uk-icon="icon: trash"></a></div><input type="hidden" name="dancer" value="#(dancer.id)"></div>';
+        +'</select></div><div class="uk-width-1-3@m"></div><div class="uk-width-1-6@m"><a href="" uk-icon="icon: trash"></a></div><input type="hidden" name="dancer" value="#(dancer.id)"></div>';
 
 input#(dancer.id) = jQuery(line#(dancer.id));
 }

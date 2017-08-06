@@ -1,6 +1,18 @@
 
 {
-    "lessons": ["CLASSIQUE1","CLASSIQUE2"],
+    "lessons": ["INITIATION1","INITIATION2","PREPARATION","CLASSIQUE1","CLASSIQUE2","CLASSIQUE3","CLASSIQUE3INTER","CLASSIQUE4","CLASSIQUE5","CLASSIQUE6","CLASSIQUE7","POINTES6","POINTES7","MODERN","MODERNINTER","PERFECTIONNEMENTJBC","JAZZJBC"],
+    "INITIATION1":{
+        "en":"Initiation 1",
+        "fr":"Initiation 1"
+    },
+    "INITIATION2":{
+        "en":"Initiation 2",
+        "fr":"Initiation 2"
+    },
+    "PREPARATION":{
+        "en":"Preparation",
+        "fr":"Préparatoire"
+    },
     "CLASSIQUE1":{
         "en":"Ballet Classic 1",
         "fr":"Ballet Classique 1"
@@ -9,4 +21,52 @@
         "en":"Ballet Classic 2",
         "fr":"Ballet Classique 2"
     },
+    "CLASSIQUE3":{
+        "en":"Ballet Classic 3",
+        "fr":"Ballet Classique 3"
+    },
+    "CLASSIQUE3INTER":{
+        "en":"Ballet Classic 3 Inter",
+        "fr":"Ballet Classique 3 Inter"
+    },
+    "CLASSIQUE4":{
+        "en":"Ballet Classic 4",
+        "fr":"Ballet Classique 4"
+    },
+    "CLASSIQUE5":{
+        "en":"Ballet Classic 5",
+        "fr":"Ballet Classique 5"
+    },
+    "CLASSIQUE6":{
+        "en":"Ballet Classic 6",
+        "fr":"Ballet Classique 6"
+    },
+    "CLASSIQUE7":{
+        "en":"Ballet Classic 7",
+        "fr":"Ballet Classique 7"
+    },
+    "POINTES6":{
+        "en":"Pointes 6",
+        "fr":"Pointes 6"
+    },
+    "POINTES7":{
+        "en":"Pointes 7",
+        "fr":"Pointes 7"
+    },
+    "MODERN":{
+        "en":"Modern Contemporary JBC",
+        "fr":"Moderne contemporain JBC"
+    },
+    "MODERNINTER":{
+        "en":"Modern Contemporary Inter",
+        "fr":"Moderne contemporain Inter"
+    },
+    "PERFECTIONNEMENTJBC":{
+        "en":"Perfection JBC",
+        "fr":"Perfectionnement JBC"
+    },
+    "JAZZJBC":{
+        "en":"Jazz JBC / JBR",
+        "fr":"Jazz JBC / JBR"
+    }
 }

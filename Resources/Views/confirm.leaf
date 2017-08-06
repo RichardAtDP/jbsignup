@@ -10,19 +10,12 @@
 
 #export("body") {
 
-<div class="uk-visible" uk-sticky>
-<nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
-<div class="uk-navbar-left"><a href="#"> #(label.confirm_title)</a></div>
-<div class="uk-navbar-right"></div>
-</nav>
-</div>
-
 <div class="uk-padding-small"></div>
 
 <div class="container">
 <div uk-grid>
-<div class="uk-width-1-4"></div>
-<div class="uk-width-1-2">
+<div class="uk-width-1-4 uk-visible@s"></div>
+<div class="uk-width-1-2@s uk-margin-left uk-margin-right">
 
 <div class="bs-callout bs-callout-uikit">
 <h4>#(label.next_steps)</h4>
@@ -46,10 +39,23 @@
 }
 <div class="uk-padding-small"></div>
 
-Print
+<div class="uk-card uk-card-body uk-card-default">
+    <h3 class="uk-card-title">Print Your Inscriptions</h3>
+    Print out your inscription by clicking on this link:<br/>
+#loop(dancers,"dancer") {
+
+    <div uk-grid class="uk-grid-small uk-margin-remove-top uk-margin-remove-bottom uk-grid-divider">
+        <div class="uk-width-2-3 uk-text-middle"><a href="http://0.0.0.0:8080/print/#(dancer.printKey)" target="_blank">#(dancer.FirstName) #(dancer.LastName)</a></div>
+        <div class="uk-width-1-3"><a href="http://0.0.0.0:8080/print/#(dancer.printKey)" target="_blank"><img src="/images/printer-icon.png" width=35></a></div>
+
+    </div>
+
+}
 </div>
 
-<div class="uk-width-1-4"></div>
+</div>
+
+<div class="uk-width-1-4 uk-visible@s"></div>
 </div>
 
 

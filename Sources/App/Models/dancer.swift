@@ -16,11 +16,12 @@ final class dancer: Model {
     var Family: String
     var DateOfBirth: Date
     var Gender: String
-    var Allergies: String
+    var Allergies: String?
+     var printKey: String
     
     let storage = Storage()
     
-    init(FirstName:String, LastName:String, Family:String, DateOfBirth:Date, Gender:String, Allergies: String) throws {
+    init(FirstName:String, LastName:String, Family:String, DateOfBirth:Date, Gender:String, Allergies: String?) throws {
         
         self.FirstName = FirstName
         self.LastName = LastName
@@ -28,6 +29,7 @@ final class dancer: Model {
         self.DateOfBirth = DateOfBirth
         self.Gender = Gender
         self.Allergies = Allergies
+        self.printKey = randomString(length: 24)
     }
 
     
@@ -38,6 +40,7 @@ final class dancer: Model {
          DateOfBirth = try row.get("DateOfBirth")
          Gender = try row.get("Gender")
          Allergies = try row.get("Allergies")
+         printKey = try row.get("printKey")
         
     }
 
@@ -50,6 +53,7 @@ final class dancer: Model {
         try row.set("DateOfBirth", DateOfBirth)
         try row.set("Gender", Gender)
         try row.set("Allergies", Allergies)
+        try row.set("printKey", printKey)
         
         return row
 
@@ -67,7 +71,8 @@ extension dancer: Preparation {
             dancer.string("Family")
             dancer.date("DateOfBirth")
             dancer.string("Gender")
-            dancer.string("Allergies")
+            dancer.string("Allergies", optional:true)
+            dancer.string("printKey")
 
             
             
@@ -107,6 +112,7 @@ extension dancer: JSONConvertible {
         try json.set("age", DateOfBirth.age())
         try json.set("Gender", Gender)
         try json.set("Allergies", Allergies)
+        try json.set("printKey", printKey)
 
         return json
     }
@@ -142,7 +148,7 @@ func formatLessonList(familyid: Int ,info:Droplet) throws -> Array<JSON> {
             }
             
             
-            form += "<div uk-grid class='uk-grid-divider'><div class='uk-width-expand@m'><select class='uk-select' name='lesson'>\(lessonDetails)</select></div><div class='uk-width-1-3@m'><input class='uk-input' type='text' placeholder='Sessions per week' name='sessions' value='\(chosenLesson.frequency)'></div><div class='uk-width-1-6@m'><a href='/family/\(familyid)/lesson/\(chosenLesson.id!.int!)/delete' uk-icon='icon: trash'></a></div><input type='hidden' name='dancer' value='\(dancer.id!.string!)'></div>"
+            form += "<div uk-grid class='uk-grid-divider'><div class='uk-width-expand@m'><select class='uk-select' name='lesson'>\(lessonDetails)</select></div><div class='uk-width-1-3@m'></div><div class='uk-width-1-6@m'><a href='/family/\(familyid)/lesson/\(chosenLesson.id!.int!)/delete' uk-icon='icon: trash'></a></div><input type='hidden' name='dancer' value='\(dancer.id!.string!)'></div>"
             
         }
         

@@ -23,13 +23,21 @@ class validate {
         self.fieldConfig["FirstName"] = ["type":"String","min":2,"max":255,"Required":"Y"]
         self.fieldConfig["LastName"] = ["type":"String","min":2,"max":255,"Required":"Y"]
         self.fieldConfig["DateOfBirth"] = ["type":"String","min":10,"max":10,"Required":"Y"]
+        self.fieldConfig["street"] = ["type":"String","min":5,"max":255,"Required":"Y"]
+        self.fieldConfig["apt"] = ["type":"String","min":1,"max":255,"Required":"N"]
+        self.fieldConfig["city"] = ["type":"String","min":5,"max":255,"Required":"Y"]
+        self.fieldConfig["postcode"] = ["type":"String","min":6,"max":7,"Required":"Y"]
+        self.fieldConfig["homephone"] = ["type":"String","min":10,"max":255,"Required":"N"]
+        self.fieldConfig["cellphone"] = ["type":"String","min":10,"max":255,"Required":"N"]
+        self.fieldConfig["emergencyContact"] = ["type":"String","min":10,"max":255,"Required":"Y"]
         
     }
     
     let content = ["register": ["name","password","email"],
                    "leader": ["name"],
                    "location": ["name"],
-                   "dancer": ["FirstName","LastName","DateOfBirth"]
+                   "dancer": ["FirstName","LastName","DateOfBirth"],
+                   "inscription": ["email","street","appartment","city","postcode","homephone","cellphone","emergencyContact"]
                    ]
     
     

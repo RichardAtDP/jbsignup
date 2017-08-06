@@ -8,20 +8,13 @@
 
 #export("body") {
 
-<div class="uk-visible" uk-sticky>
-<nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
-<div class="uk-navbar-left"><a href="#"> Inscription</a></div>
-<div class="uk-navbar-right"><div class="uk-align-right"><a href="?lang=en">en</a> | <a href="?lang=fr">fr</a></div></div>
-</nav>
-</div>
-
 <div class="uk-padding-small"></div>
 
 <div class="container">
     <div uk-grid>
-        <div class="uk-width-1-4"></div>
-        <div class="uk-width-1-2">
-
+        <div class="uk-width-1-4 uk-visible@s"></div>
+        <div class="uk-width-1-2@s uk-margin-left uk-margin-right">
+    <div class="uk-align-right">#equal(lang, "fr") {<a href="?lang=en">English</a>} #equal(lang, "en") {<a href="?lang=fr">Français</a>}</div>
             <div class="bs-callout bs-callout-uikit">
                 <h4>#(label.family_details)</h4>
 
@@ -46,7 +39,7 @@
             <form action="" method="POST" class="uk-form-stacked">
 
             <div class="uk-margin">
-                <label for="exampleInputEmail1" class="uk-form-label">#(label.email_address)</label>
+                <label for="exampleInputEmail1" class="uk-form-label">#(label.email_address)*</label>
                 <input type="email" class="uk-input" name="email" id="exampleInputEmail1" placeholder="#(label.email_address)" maxlength=25>
             </div>
             <div class="uk-margin">
@@ -57,12 +50,12 @@
 
     <div class="uk-grid">
     <div class="uk-width-2-3">
-    <label for="street" class="uk-form-label">#(label.address)</label>
+    <label for="street" class="uk-form-label">#(label.address)*</label>
     <input type="text" class="uk-input  #if(errors.street) {uk-form-danger}" name="street" id="street" placeholder="#(label.street)" maxlength=255 value="#(Dancer.street)">
     #if(errors.street) { <span class="uk-text-danger">#(errors.street.error)</span>}
     </div>
     <div class="uk-width-1-3">
-    <label for="appartment" class="uk-form-label">#(label.appartment)</label>
+    <label for="appartment" class="uk-form-label">Appartment</label>
     <input type="text" class="uk-input  #if(errors.appartment) {uk-form-danger}" name="appartment" id="appartment" placeholder="#(label.appartment)" maxlength=255 value="#(Dancer.appartment)">
     #if(errors.appartment) { <span class="uk-text-danger">#(errors.appartment.error)</span>}
     </div>
@@ -70,13 +63,11 @@
 
 <div class="uk-grid uk-margin-small">
 <div class="uk-width-2-3">
-<label for="city" class="uk-form-label">#(label.city)</label>
-<input type="text" class="uk-input  #if(errors.city) {uk-form-danger}" name="city" id="city" placeholder="#(label.city)" maxlength=255 value="#(Dancer.city)">
+<input type="text" class="uk-input  #if(errors.city) {uk-form-danger}" name="city" id="city" placeholder="#(label.city)*" maxlength=255 value="#(Dancer.city)">
 #if(errors.city) { <span class="uk-text-danger">#(errors.city.error)</span>}
 </div>
 <div class="uk-width-1-3">
-<label for="postcode" class="uk-form-label">#(label.postcode)</label>
-<input type="text" class="uk-input  #if(errors.postcode) {uk-form-danger}" name="postcode" id="postcode" placeholder="#(label.postcode)" maxlength=255 value="#(Dancer.postcode)">
+<input type="text" class="uk-input  #if(errors.postcode) {uk-form-danger}" name="postcode" id="postcode" placeholder="#(label.postcode)*" maxlength=255 value="#(Dancer.postcode)">
 #if(errors.postcode) { <span class="uk-text-danger">#(errors.postcode.error)</span>}
 </div>
 </div>
@@ -94,12 +85,25 @@
 </div>
 </div>
 
-<div class="uk-grid">
+<div class="uk-grid uk-margin-small">
 <div class="uk-width-1-1">
-<label for="emergencyContact" class="uk-form-label">#(label.emergencyContact)</label>
+<label for="emergencyContact" class="uk-form-label">#(label.emergencyContact)*</label>
 <input type="text" class="uk-input  #if(errors.emergencyContact) {uk-form-danger}" name="emergencyContact" id="emergencyContact" placeholder="#(label.emergencyContact)" maxlength=255 value="#(Dancer.emergencyContact)">
 #if(errors.emergencyContact) { <span class="uk-text-danger">#(errors.emergencyContact.error)</span>}
 </div></div>
+
+<div class="uk-grid">
+<div class="uk-width-1-1">
+<label for="how_hear" class="uk-form-label">#(label.how_know)</label>
+<input type="text" class="uk-input  #if(errors.how_hear) {uk-form-danger}" name="how_hear" id="how_hear" placeholder="#(label.how_know)" maxlength=255 value="#(Dancer.how_know)">
+#if(errors.how_know) { <span class="uk-text-danger">#(errors.how_know.error)</span>}
+</div></div>
+
+<div class="uk-margin">
+<label><input class="uk-checkbox" type="checkbox" name="photos" checked> <span class="uk-text-small">#(label.accept_photos)</span></label>
+
+</div>
+
 
 <p />
             <button type="submit" class="uk-button uk-button-primary uk-align-right">#(label.next)</button>
@@ -107,7 +111,7 @@
             </form>
         </div>
 
-        <div class="uk-width-1-4"></div>
+        <div class="uk-width-1-4 uk-visible@s"></div>
 </div>
 
 

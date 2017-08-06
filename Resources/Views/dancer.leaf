@@ -9,19 +9,13 @@
 
 #export("body") {
 
-<div class="uk-visible" uk-sticky>
-<nav class="uk-navbar-container navbar-top-color" uk-navbar style="background-color:rgba(40,138,237,0.8); height:50px;">
-<div class="uk-navbar-left"><a href="#"> #(label.dancers_title)</a></div>
-<div class="uk-navbar-right"></div>
-</nav>
-</div>
 
 <div class="uk-padding-small"></div>
 
 <div class="container">
 <div uk-grid>
-<div class="uk-width-1-4"></div>
-<div class="uk-width-1-2">
+<div class="uk-width-1-4 uk-visible@s"></div>
+<div class="uk-width-1-2@s uk-margin-left uk-margin-right">
 
 <div class="bs-callout bs-callout-uikit">
 <h4>#(label.dancers_title)</h4>
@@ -50,21 +44,21 @@
 
 
 <div class="uk-margin">
-    <label for="FirstName" class="uk-form-label">#(label.first_name)</label>
+    <label for="FirstName" class="uk-form-label">#(label.first_name)*</label>
 <input type="text" class="uk-input #if(errors.FirstName) {uk-form-danger}" name="FirstName" id="FirstName" placeholder="#(label.first_name)" maxlength=50 value="#(Dancer.FirstName)">
     #if(errors.FirstName) { <span class="uk-text-danger">#(errors.FirstName.error)</span>}
 
 
 </div>
 <div class="uk-margin">
-    <label for="LastName" class="uk-form-label">#(label.last_name)</label>
+    <label for="LastName" class="uk-form-label">#(label.last_name)*</label>
     <input type="text" class="uk-input #if(errors.LastName) {uk-form-danger}" name="LastName" id="LastName" placeholder="#(label.last_name)" maxlength=50 value="#(Dancer.LastName)">
     #if(errors.LastName) { <span class="uk-text-danger">#(errors.LastName.error)</span>}
 </div>
 
 
 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-    <label for="gender" class="uk-form-label">#(label.gender)</label>
+    <label for="gender" class="uk-form-label">#(label.gender)*</label>
     <label><input class="uk-radio" type="radio" name="gender" value="male" #if(Dancer.male) {checked}> #(label.male)</label>
 <label><input class="uk-radio" type="radio" name="gender" value="female" #if(Dancer.female) {checked}> #(label.female)</label>
 </div>
@@ -72,7 +66,7 @@
 
 
 <div class="uk-margin">
-    <label for="DateOfBirth" class="uk-form-label">#(label.date_of_birth)</label>
+    <label for="DateOfBirth" class="uk-form-label">#(label.date_of_birth)*</label>
     <input type="text" class="uk-input  #if(errors.DateOfBirth) {uk-form-danger}" name="DateOfBirth" id="DateOfBirth" placeholder="#(label.date_of_birth)" maxlength=10 value="#(Dancer.DateOfBirth)">
     #if(errors.DateOfBirth) { <span class="uk-text-danger">#(errors.DateOfBirth.error)</span>}
 </div>
@@ -95,7 +89,7 @@ format: 'YYYY-MM-DD',yearRange:[1975,2014]});
 </form>
 </div>
 
-<div class="uk-width-1-4"></div>
+<div class="uk-width-1-4 uk-visible@s"></div>
 </div>
 
 
