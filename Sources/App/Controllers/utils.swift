@@ -98,14 +98,15 @@ func lessonList(_ info:Droplet) throws -> Array<JSON> {
 
 func randomString(length: Int) -> String {
 
-    let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    let letters : String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     
     var randomString = ""
     
     for _ in 0 ..< length {
         let rand = makeRandom(min: 0, max: 61)
-        var nextChar = letters.character(at: Int(rand))
-        randomString += NSString(characters: &nextChar, length: 1) as String
+        let index = letters.characters.index(letters.startIndex, offsetBy: rand)
+        let nextChar = letters[index]
+        randomString += String(describing: nextChar)
     }
 
     return randomString
