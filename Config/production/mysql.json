@@ -1,7 +1,8 @@
 
 {
-    "hostname": "https://s133.panelboxmanager.com",
-    "user": "connect_jb",
-    "password": "vLw-4yf-fkD-fsd",
-    "database": "connect_jbsignup"
+    "hostname": "$DATABASE_HOSTNAME",
+    "user": "$DATABASE_USER",
+    "password": "$DATABASE_PASSWORD",
+    "database": "$DATABASE_DB",
+    "encoding": "utf8mb4"
 }
