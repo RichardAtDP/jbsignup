@@ -1,0 +1,26 @@
+
+html {
+    font-size: 12px;
+    line-height: 1;
+    overflow: initial;
+    
+}
+
+.rules {
+    font-size: 10px;
+    line-height: 1;
+    
+}
+
+@media all {
+    .page-break    { display: none; }
+}
+
+@media print {
+    .page-break    { page-break-before: always; }
+}
+
+body {
+
+    overflow: initial;
+}

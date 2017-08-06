@@ -1,0 +1,86 @@
+#extend("base")
+
+#export("head") {
+ <title>#(label.print_title)</title>
+ <link href="/css/print.css" rel="stylesheet">
+
+ <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+}
+
+#export("body") {
+
+#loop(dancers,"dancer") {
+
+
+
+
+<div class="uk-container">
+<div uk-grid >
+<div class="uk-width-1-3 uk-text-middle"></div>
+<div class="uk-width-1-3"><img class="uk-align-center" src="http://static1.squarespace.com/static/56da3476ab48defc356a31bc/t/56dc7157e707eb815a791021/1501418826147/?format=1500w" width="100"></div>
+<div class="uk-width-1-3"></div>
+</div>
+
+<p>#(label.CONTRACT_NUMBER)</p>
+
+<p><b>#(label.student_name):</b> #(dancer.FirstName) #(dancer.LastName)</p>
+<div uk-grid class="uk-grid-small uk-margin-small"><div class="uk-width-2-3"><b>#(label.date_of_birth):</b> #(dancer.DateOfBirth)</div> <div class="uk-width-1-3"> <b>#(label.age):</b> #(dancer.age)</div></div>
+
+<p><b>#(label.health):</b> #(dancer.Allergies)</p>
+
+<div uk-grid class="uk-grid-small uk-margin-remove-bottom"><div class="uk-width-2-3"><b>#(label.street):</b> #(family.street)</div> <div class="uk-width-1-3"><b>#(label.appartment):</b> #(family.appartment)</div></div>
+<div uk-grid class="uk-grid-small uk-margin-remove-top uk-margin-remove-bottom"><div class="uk-width-2-3"><b>#(label.city):</b> #(family.city) </div><div class="uk-width-1-3"><b>#(label.postcode):</b> #(family.postcode)</div></div>
+<div uk-grid class="uk-grid-small"><div class="uk-width-2-3"><b>#(label.homephone):</b> #(family.homephone)</div> <div class="uk-width-1-3"> <b>#(label.cellphone):</b> #(family.cellphone)</div><div>
+<p><b>#(label.emergencyContact):</b> #(family.emergencyContact)</p>
+
+<div uk-grid class="uk-grid-small uk-margin-small"><div class="uk-width-2-3"><b>#(label.email_contact):</b> #(family.CASL)<br>
+#(label.email_contact2)</div><div class="uk-width-1-3"><b>#(label.email_address):</b> #(family.email)</div></div>
+
+<div class="rules">#(label.rules) #(label.cancelation)</div>
+
+<div uk-grid class="uk-grid-small uk-margin-small">
+<div class="uk-width-2-3"><b>#(label.how_know)</b> #(family.how_hear)</div>
+
+<div class="uk-width-1-3"><b>#(label.accept_photos)</b> #(family.photos)</div>
+</div>
+
+<div uk-grid class="uk-grid-small"><div class="uk-width-2-3">#(label.final_payment)
+</div><div class="uk-width-1-3">#(label.cheque_fee)</div></div>
+
+
+<table class="uk-table uk-table-divider uk-margin-remove-top uk-margin-remove-bottom">
+<tr><th>#(label.class)</th><th>#(label.horaire)</th><th>#(label.amount)</th></tr>
+        #loop(lessons,"lesson") {
+
+            #equal(lesson.dancerId, dancer.id) {
+
+                <tr><td height="15">#(lesson.Lesson)</td><td></td><td></td></tr>
+            }
+   
+    }
+    </table>
+
+<div uk-grid class="uk-grid-small uk-margin-remove-top uk-margin-remove-bottom">
+<div class="uk-width-1-3 uk-text-middle">#(label.date)</div>
+<div class="uk-width-2-3 "><span class="uk-align-right">#(label.total)</span></div>
+</div>
+
+<div uk-grid >
+    <div class="uk-width-1-3">____________________________________</br>#(label.contract_person)</div>
+    <div class="uk-width-1-3">____________________________________</br>#(label.contract_person_signature)</div>
+    <div class="uk-width-1-3">____________________________________</br>#(label.school_signature)</div>
+</div>
+<p class="uk-text-muted">Inscription Reference: #(family.id) - #(dancer.id)</p>
+</div>
+
+
+
+<div style="">
+
+<p style="overflow:initial;page-break-before:always; position: relative"></p>
+</div>
+}
+
+
+
+}
