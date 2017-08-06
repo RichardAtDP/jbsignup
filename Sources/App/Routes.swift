@@ -35,7 +35,7 @@ extension Droplet {
             let Fam = try family.makeQuery().filter("email", .equals, emailProvided)
             if try Fam.count() > 0 {
                 
-                try sendEmail(familyId: (try Fam.first()!.id?.string!)!, Template: "EMAIL_EXISTS", drop: self, lang:lang)
+                try sendEmail(familyId: (try Fam.first()!.id?.string!)!, Template: "EMAIL_EXISTS", drop: self, lang:lang, host:req.uri.hostname)
                     return Response(redirect: "/inscription?error=EMAIL_EXISTS")
             }
             
@@ -257,7 +257,7 @@ extension Droplet {
             
             try saveLesson(proData:req.data, familyid:familyid)
            
-            try sendEmail(familyId: familyid, Template: "PRINT", drop: self, lang: lang)
+            try sendEmail(familyId: familyid, Template: "PRINT", drop: self, lang: lang, host:req.uri.hostname)
             
             let dancers = try dancer.makeQuery().filter("Family", .equals, familyid).all().makeJSON()
             
