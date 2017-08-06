@@ -60,7 +60,7 @@ final class family: Model {
         emergencyContact = try row.get("emergencyContact")
         how_hear = try row.get("how_hear")
         photos = try row.get("photos")
-        photos = try row.get("lang")
+        lang = try row.get("lang")
         
     }
     
@@ -161,7 +161,7 @@ extension family: Timestampable { }
 
 extension family: ResponseRepresentable { }
 
-func sendEmail(familyId:String, Template:String, drop:Droplet) throws {
+func sendEmail(familyId:String, Template:String, drop:Droplet, lang:String) throws {
     
     var subject = ""
     var body = ""
@@ -170,19 +170,38 @@ func sendEmail(familyId:String, Template:String, drop:Droplet) throws {
     
     if Template == "PRINT" {
         
-        body = "Thank you for sending this email. You can retrieve your stuff here: http://0.0.0.0:8080/print/\(Family!.printKey)"
+        if lang == "en" {
+            body = "<html><p>Thank you entering your inscription information.</p> <p>The next step is to visit the school on Tuesday 22nd, Saturday 26th or Sunday 27th August to complete your inscription.</p><p><b>Please print out your contracts and bring them with you.</b></p> <p>You can retrieve your contacts by clicking <a href='http://0.0.0.0:8080/summary/\(Family!.printKey)'>here</a>.</p>Thank you for your confidence in Junior Ballet!</p></html>"
+            
+            subject = "Your Inscription with Junior Ballet"
+        }
         
-        subject = "Your Inscription"
+        if lang == "fr" {
+            
+            body = "<html><p>Merci d'avoir complété les informations nécessaires pour l'inscription automne-hiver 2017.</p> <p>La prochaine étape est de se rendre à l'école soit le mardi 22, soit le samedi 26 soit le dimanche 27 aout pour terminer votre inscription.</p><p><b>Veuillez imprimer vos contrats et les ramener à l'école lors de votre passage.</b></p> <p>Vous pouvez acceder à vos contrats <a href='http://0.0.0.0:8080/summary/\(Family!.printKey)'>ici</a>.</p>Merci pour votre confiance en le Junior Ballet</p></html>"
+            
+            subject = "Votre inscription avec le Junior Ballet"
+            
+        }
+
     }
     
 
     if Template == "EMAIL_EXISTS" {
+        if lang == "en" {
+            body = "<html>You can access your Junior Ballet inscription by clicking on this link:<p> http://0.0.0.0:8080/restart/\(Family!.printKey)</p></html>"
+            
+            subject = "Your Inscription to Junior Ballet's Fall-Winter 2017 Season"
+        }
         
-        body = "You can retrieve your inscription here: http://0.0.0.0:8080/restart/\(Family!.printKey)"
+        if lang == "fr" {
+            body = "<html>Vous pouvez continuer ou modifier votre inscription Junior Ballet en accedant ce lien:<p> http://0.0.0.0:8080/restart/\(Family!.printKey)</p></html>"
         
-        subject = "Your Inscription to Junior Ballet's 2017 Fall Season"
+            subject = "Votre inscription au session automne-hiver 2017 du Junior Ballet"
+        }
     }
     
-    let email = Email(from:"info@junior-ballet.com", to: Family!.email, subject: subject, body: body)
+    let emailContent = EmailBody(type: .html, content: body)
+    let email = Email(from:"info@junior-ballet.com", to: Family!.email, subject: subject, body: emailContent)
     try drop.mail.send(email)
 }

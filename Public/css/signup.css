@@ -530,6 +530,28 @@ font-weight: bold;
     color: #fff;
 }
 
+/*
+ * Back
+ */
+.uk-button-back {
+    background-color: white;
+    color: rgba(155, 6, 15, 1);
+    border: 1px solid rgba(155, 6, 15, 1);
+}
+/* Hover + Focus */
+.uk-button-back:hover,
+.uk-button-back:focus {
+    background-color: rgba(155, 6, 15, 0.8);
+    color: #fff;
+}
+/* OnClick + Active */
+.uk-button-back:active,
+.uk-button-back.uk-active {
+    background-color: background-color: rgba(155, 6, 15, 0.5);
+    color: #fff;
+}
+
+
 body:a {
     color:rgba(155, 6, 15, 1);
 }

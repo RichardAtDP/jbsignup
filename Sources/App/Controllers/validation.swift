@@ -22,7 +22,7 @@ class validate {
         self.fieldConfig["name"] = ["type":"String","min":2,"max":255,"Required":"Y"]
         self.fieldConfig["FirstName"] = ["type":"String","min":2,"max":255,"Required":"Y"]
         self.fieldConfig["LastName"] = ["type":"String","min":2,"max":255,"Required":"Y"]
-        self.fieldConfig["DateOfBirth"] = ["type":"String","min":10,"max":10,"Required":"Y"]
+        self.fieldConfig["DateOfBirth"] = ["type":"Date","min":10,"max":10,"Required":"Y"]
         self.fieldConfig["street"] = ["type":"String","min":5,"max":255,"Required":"Y"]
         self.fieldConfig["apt"] = ["type":"String","min":1,"max":255,"Required":"N"]
         self.fieldConfig["city"] = ["type":"String","min":5,"max":255,"Required":"Y"]
@@ -30,13 +30,14 @@ class validate {
         self.fieldConfig["homephone"] = ["type":"String","min":10,"max":255,"Required":"N"]
         self.fieldConfig["cellphone"] = ["type":"String","min":10,"max":255,"Required":"N"]
         self.fieldConfig["emergencyContact"] = ["type":"String","min":10,"max":255,"Required":"Y"]
+        self.fieldConfig["gender"] = ["type":"String","min":2,"max":10,"Required":"Y"]
         
     }
     
     let content = ["register": ["name","password","email"],
                    "leader": ["name"],
                    "location": ["name"],
-                   "dancer": ["FirstName","LastName","DateOfBirth"],
+                   "dancer": ["FirstName","LastName","DateOfBirth","gender"],
                    "inscription": ["email","street","appartment","city","postcode","homephone","cellphone","emergencyContact"]
                    ]
     
@@ -56,6 +57,7 @@ class validate {
             if data.characters.count > config["max"] as! Int {addError(field: field, message: "TOO_LONG", limit: (config["max"] as! Int))}
             if config["type"] as! String == "email" && (data.range(of:"@")==nil || data.range(of:".")==nil) {addError(field: field, message: "INVALID_EMAIL")}
             if config["type"] as! String == "Integer" && data.isNumber == false {addError(field: field, message: "MUST_BE_NUMERIC")}
+            if config["type"] as! String == "Date" && data.isDate() == false {addError(field: field, message: "MUST_BE_ISO_DATE")}
             
         } else {
             

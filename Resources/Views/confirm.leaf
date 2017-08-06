@@ -40,8 +40,8 @@
 <div class="uk-padding-small"></div>
 
 <div class="uk-card uk-card-body uk-card-default">
-    <h3 class="uk-card-title">Print Your Inscriptions</h3>
-    Print out your inscription by clicking on this link:<br/>
+<h3 class="uk-card-title">#(label.print_your_inscriptions)</h3>
+    #(label.print_instructions)<br/>
 #loop(dancers,"dancer") {
 
     <div uk-grid class="uk-grid-small uk-margin-remove-top uk-margin-remove-bottom uk-grid-divider">
@@ -52,6 +52,8 @@
 
 }
 </div>
+<br />
+<a href="/family/#(familyid)/lessons" class="uk-button uk-button-back">#(label.change_lessons)</a>
 
 </div>
 

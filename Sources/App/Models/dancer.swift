@@ -148,7 +148,7 @@ func formatLessonList(familyid: Int ,info:Droplet) throws -> Array<JSON> {
             }
             
             
-            form += "<div uk-grid class='uk-grid-divider'><div class='uk-width-expand@m'><select class='uk-select' name='lesson'>\(lessonDetails)</select></div><div class='uk-width-1-3@m'></div><div class='uk-width-1-6@m'><a href='/family/\(familyid)/lesson/\(chosenLesson.id!.int!)/delete' uk-icon='icon: trash'></a></div><input type='hidden' name='dancer' value='\(dancer.id!.string!)'></div>"
+            form += "<div uk-grid class='uk-grid-divider uk-margin-small-top'><div class='uk-width-expand@m'><select class='uk-select' name='lesson'>\(lessonDetails)</select></div><div class='uk-width-1-6@m'></div><div class='uk-width-1-6@m'><a href='/family/\(familyid)/lesson/\(chosenLesson.id!.int!)/delete' uk-icon='icon: trash'></a></div><input type='hidden' name='dancer' value='\(dancer.id!.string!)'></div>"
             
         }
         

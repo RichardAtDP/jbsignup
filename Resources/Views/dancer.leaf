@@ -61,6 +61,7 @@
     <label for="gender" class="uk-form-label">#(label.gender)*</label>
     <label><input class="uk-radio" type="radio" name="gender" value="male" #if(Dancer.male) {checked}> #(label.male)</label>
 <label><input class="uk-radio" type="radio" name="gender" value="female" #if(Dancer.female) {checked}> #(label.female)</label>
+#if(errors.Gender) { <span class="uk-text-danger">#(errors.Gender.error)</span>}
 </div>
 
 

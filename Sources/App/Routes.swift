@@ -35,7 +35,7 @@ extension Droplet {
             let Fam = try family.makeQuery().filter("email", .equals, emailProvided)
             if try Fam.count() > 0 {
                 
-                try sendEmail(familyId: (try Fam.first()!.id?.string!)!, Template: "EMAIL_EXISTS", drop: self)
+                try sendEmail(familyId: (try Fam.first()!.id?.string!)!, Template: "EMAIL_EXISTS", drop: self, lang:lang)
                     return Response(redirect: "/inscription?error=EMAIL_EXISTS")
             }
             
@@ -257,7 +257,7 @@ extension Droplet {
             
             try saveLesson(proData:req.data, familyid:familyid)
            
-            try sendEmail(familyId: familyid, Template: "PRINT", drop: self)
+            try sendEmail(familyId: familyid, Template: "PRINT", drop: self, lang: lang)
             
             let dancers = try dancer.makeQuery().filter("Family", .equals, familyid).all().makeJSON()
             
@@ -296,11 +296,11 @@ extension Droplet {
             
             
             let Family = try family.makeQuery().filter("id",.equals,dancer.Family.string).first()
+            lang = Family!.lang!
             
             let lessons = try addLessonName(drop: self, familyId: (Family?.id?.string!)!, lang:lang)
             
 
-            
             return try self.view.make("print",["family":Family!.makeJSON(), "dancers":dancer.makeJSON(), "lessons":lessons, "config":self.config["lessons"]!.makeNode(in:nil), "label":self.config["labels",lang]!])
         }
         
@@ -316,9 +316,30 @@ extension Droplet {
             
             let session = try req.assertSession()
             try session.data.set("email", Family.email)
+            lang = Family.lang!
             
             return Response(redirect: "/family/\(String(describing: Family.id!.string!))")
         }
+        
+        get("summary",":printKey") { req in
+            
+            guard let printKey = req.parameters["printKey"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            guard let Family = try family.makeQuery().filter("printKey",.equals,printKey).first() else {
+                throw Abort.badRequest
+            }
+            
+            let session = try req.assertSession()
+            try session.data.set("email", Family.email)
+            lang = Family.lang!
+            
+            let dancers = try dancer.makeQuery().filter("Family", .equals, Family.id!.string).all().makeJSON()
+            
+            return try self.view.make("confirm", ["familyid":Family.id!.string,"label":self.config["labels",lang],"dancers":dancers, "lang":lang])
+        }
+        
         
         try resource("posts", PostController.self)
     }
