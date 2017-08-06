@@ -261,7 +261,7 @@ extension Droplet {
             
             let dancers = try dancer.makeQuery().filter("Family", .equals, familyid).all().makeJSON()
             
-            return try self.view.make("confirm", ["familyid":familyid,"label":self.config["labels",lang],"dancers":dancers, "lang":lang])
+            return try self.view.make("confirm", ["familyid":familyid,"label":self.config["labels",lang],"dancers":dancers, "lang":lang, "host":req.uri.hostname])
         }
         
         get("family",":id", "lesson",":lessonId","delete") { req in
@@ -337,7 +337,7 @@ extension Droplet {
             
             let dancers = try dancer.makeQuery().filter("Family", .equals, Family.id!.string).all().makeJSON()
             
-            return try self.view.make("confirm", ["familyid":Family.id!.string,"label":self.config["labels",lang],"dancers":dancers, "lang":lang])
+            return try self.view.make("confirm", ["familyid":Family.id!.string,"label":self.config["labels",lang],"dancers":dancers, "lang":lang, "host":req.uri.hostname])
         }
         
         
