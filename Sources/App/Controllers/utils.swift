@@ -117,9 +117,16 @@ func randomString(length: Int) -> String {
 func addLessonName(drop:Droplet, familyId:String, lang:String) throws -> JSON {
     
      let lessons = try lesson.makeQuery().filter("familyId", .equals, familyId).all()
+     let dancers = try dancer.makeQuery().filter("Family", .equals, familyId).all()
     
      var lessonList = [JSON]()
      var dancerList = [String]()
+    
+    // Return all dancers so the lines can be generated if no lessons selected
+    for dancer in dancers {
+        dancerList.append((dancer.id?.string!)!)
+    }
+    
      var i = 0
      for lesson in lessons {
         var lessonItem = JSON()

@@ -340,6 +340,25 @@ extension Droplet {
             return try self.view.make("confirm", ["familyid":Family.id!.string,"label":self.config["labels",lang],"dancers":dancers, "lang":lang, "host":req.uri.hostname])
         }
         
+        get("family",":id","summary") {req in
+            
+            guard let familyid = req.parameters["id"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            let session = try req.assertSession()
+            if (try family.makeQuery().filter("email",.equals,session.data["email"]?.string).first()?.id?.string ?? "0")! != familyid  {
+                throw Abort.badRequest
+            }
+            
+            try sendEmail(familyId: familyid, Template: "PRINT", drop: self, lang: lang, host:req.uri.hostname)
+            
+            let dancers = try dancer.makeQuery().filter("Family", .equals, familyid).all().makeJSON()
+            
+            return try self.view.make("confirm", ["familyid":familyid,"label":self.config["labels",lang],"dancers":dancers, "lang":lang, "host":req.uri.hostname])
+            
+        }
+        
         
         try resource("posts", PostController.self)
     }

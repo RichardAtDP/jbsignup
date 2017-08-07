@@ -61,7 +61,8 @@
         "change_dancers":"CHANGE DANCERS",
         "change_lessons":"CHANGE LESSONS",
         "print_your_inscriptions":"Print Your Inscriptions",
-        "print_instructions":"Print out your inscriptions by clicking on the dancer's name:"
+        "print_instructions":"Print out your inscriptions by clicking on the dancer's name:",
+        "view_summary":"PRINT YOUR CONTRACTS"
         
         
         
@@ -127,6 +128,7 @@
         "change_dancers":"MODIFIEZ DANSEURS",
         "change_lessons":"MODIFIEZ COURS",
         "print_your_inscriptions":"Imprimez vos inscriptions",
-        "print_instructions":"Pour imprimez vos inscriptions, cliquez sur le nom de votre danseur."
+        "print_instructions":"Pour imprimez vos inscriptions, cliquez sur le nom de votre danseur.",
+        "view_summary":"IMPRIMEZ VOS CONTRATS"
     }
 }

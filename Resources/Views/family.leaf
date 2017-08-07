@@ -73,7 +73,7 @@
 
 
 
-<a href="/family/#(familyid)/lessons" class="uk-button uk-button-primary uk-align-right">#(label.select_lessons)</a>
+<a href="/family/#(familyid)/summary" class="uk-button uk-button-primary uk-align-right">#(label.view_summary)</a>
 
 </form>
 </div>
