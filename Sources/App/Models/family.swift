@@ -152,6 +152,8 @@ extension family: JSONConvertible {
         try json.set("how_hear", how_hear)
         try json.set("photos", photos?.toCheck())
         try json.set("lang",lang)
+        try json.set("updatedAt",updatedAt?.dateAndTime())
+        try json.set("createdAt",createdAt?.dateAndTime())
         
         return json
     }

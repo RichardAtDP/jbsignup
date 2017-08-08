@@ -1,7 +1,7 @@
 
 {
     "en":{
-        "family_details":"Family Details",
+        "family_details":"Inscription Form",
         "family_details_instruction":"Please enter your email address so we can send you a copy of your inscription.",
         "email_address":"email Address",
         "next":"NEXT",
@@ -62,13 +62,24 @@
         "change_lessons":"CHANGE LESSONS",
         "print_your_inscriptions":"Print Your Inscriptions",
         "print_instructions":"Print out your inscriptions by clicking on the dancer's name:",
-        "view_summary":"PRINT YOUR CONTRACTS"
+        "view_summary":"PRINT YOUR CONTRACTS",
+        "administration_title":"Administration",
+        "lang":"Lang",
+        "CASL":"CASL",
+        "created":"Created",
+        "updated":"Updated",
+        "phone":"Phone",
+        "administrator_identify":"Please Enter your Email",
+        "administrator_identify_instruction":"We use this to see if you have permission to enter this module.",
+        "identify_email":"You have been sent an email with a link that will allow you to log into the Administration Module."
+        
+        
         
         
         
     },
     "fr":{
-        "family_details":"Détail de la famille",
+        "family_details":"Formulaire d'inscription",
         "family_details_instruction":"Veuillez commencer par nous fournir votre adresse courriel afin que nous puissions vous envoyer une copie de votre inscription.",
         "email_address":"Adresse courriel",
         "next":"SUIVANT",
@@ -129,6 +140,15 @@
         "change_lessons":"MODIFIEZ COURS",
         "print_your_inscriptions":"Imprimez vos inscriptions",
         "print_instructions":"Pour imprimez vos inscriptions, cliquez sur le nom de votre danseur.",
-        "view_summary":"IMPRIMEZ VOS CONTRATS"
+        "view_summary":"IMPRIMEZ VOS CONTRATS",
+        "administration_title":"Administration",
+        "lang":"Lang",
+        "CASL":"CASL",
+        "created":"Créé",
+        "updated":"Mis à jour",
+        "phone":"Téléphone",
+        "administrator_identify":"Veuillez entrer votre courriel",
+        "administrator_identify_instruction":"Nous utilisons votre courriel pour confirmer que vous avez le droit d'entrer le module.",
+        "identify_email":"Nous vous avons envoyé par courriel un lien qui vous donnerez accès au système d'administration. Veuillez le garder securitairement."
     }
 }

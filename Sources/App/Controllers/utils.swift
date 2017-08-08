@@ -9,6 +9,7 @@ import Foundation
 import Vapor
 import FluentProvider
 import Random
+import SMTP
 
 
 extension String {
@@ -58,6 +59,16 @@ extension Date {
         return dateFormatter.string(from: self)
         
     }
+    
+    func dateAndTime () -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        return dateFormatter.string(from: self)
+        
+    }
+    
     
     func age () -> Int {
         
@@ -168,3 +179,32 @@ func countItem(List:Array<String>, item:String) -> Int {
         return counting
 }
 
+func sendAdminEmail(Template:String, drop:Droplet, lang:String, host:String, email:String) throws {
+    
+    var subject = ""
+    var body = ""
+    
+    
+    if Template == "ADMINLINK" {
+        
+        if lang == "en" {
+            body = "<html><p>To access the Administration Module, please click on this link</p><p>https://\(host)/administration/\(try drop.hash.make(email).makeString())</><p>Please do not share this link in order to maintain security.</p></html>"
+            
+            subject = "Access the Administration Centre"
+        }
+        
+        if lang == "fr" {
+            
+            body = "<html><p>Pour acceder au module d'administration, veuillez cliquer sur cette lien</p><p>https://\(host)/administration/\(try drop.hash.make(email).makeString())</><p>Ce lien est personalizé uniquement pour vous. Ne pas partager s'il vous plaît.</p></html>"
+            
+            subject = "Votre accès au système d'administration"
+            
+        }
+        
+    }
+    
+    
+    let emailContent = EmailBody(type: .html, content: body)
+    let email = Email(from:"info@junior-ballet.com", to: email, subject: subject, body: emailContent)
+    try drop.mail.send(email)
+}

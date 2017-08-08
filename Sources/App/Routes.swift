@@ -359,6 +359,85 @@ extension Droplet {
             
         }
         
+        get("administration","identify") { req in
+            
+            setLang(req.data["lang"])
+            
+            
+            return try self.view.make("administration/identify", ["lang":lang,"label":self.config["labels",lang]])
+        }
+        
+        post("administration","identify") { req in
+            
+            guard let suppliedEmail = req.data["email"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            for useremail in (self.config["administration","useremails"]?.array)! {
+                print(useremail)
+                
+                if useremail.string == suppliedEmail {
+                    let warning = self.config["labels",lang,"identify_email"]
+                    
+                    try sendAdminEmail(Template: "ADMINLINK", drop: self, lang: lang, host: req.uri.hostname, email: suppliedEmail)
+                    
+                    return try self.view.make("administration/identify", ["lang":lang,"label":self.config["labels",lang],"warning":warning])
+                }
+                
+            }
+            
+            return "Unable to process"
+            
+        }
+        
+        
+        get("administration",":securityKey") {req in
+            
+            guard let securityKey = req.parameters["securityKey"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            var status = "UNAUTHORIZED"
+            for useremail in (self.config["administration","useremails"]?.array)! {
+                
+                if try self.hash.check(useremail.string!.makeBytes(), matchesHash: securityKey.makeBytes()) {
+                    status = "OK"
+                }
+            }
+            
+            if status == "UNAUTHORIZED" {return "Bad access"}
+            
+            
+            var adminList = [JSON]()
+            var sortType = "email"
+            
+            if req.data["sort"]?.string == "created" {
+                sortType = "created_At"
+            }
+            if req.data["sort"]?.string == "updated" {
+                sortType = "updated_At"
+            }
+            if req.data["sort"]?.string == "email" {
+                sortType = "email"
+            }
+            
+            let    families = try family.makeQuery()
+                                .sort(sortType, .ascending)
+                                .all().array
+
+            for Family in families {
+                var FamilyInfo = JSON()
+                
+                let dancers = try dancer.makeQuery().filter("Family", .equals, Family.id?.string).all().array
+                
+                FamilyInfo = try Family.makeJSON()
+                try FamilyInfo.set("dancers", dancers)
+                
+                adminList.append(FamilyInfo)
+            }
+            
+            return try self.view.make("administration/administration", ["adminList":adminList, "lang":lang,"label":self.config["labels",lang],"securityKey":securityKey])
+        }
         
         try resource("posts", PostController.self)
     }

@@ -96,7 +96,7 @@
 <div class="uk-width-1-1">
 <label for="how_hear" class="uk-form-label">#(label.how_know)</label>
 <input type="text" class="uk-input  #if(errors.how_hear) {uk-form-danger}" name="how_hear" id="how_hear" placeholder="#(label.how_know)" maxlength=255 value="#(Dancer.how_know)">
-#if(errors.how_know) { <span class="uk-text-danger">#(errors.how_know.error)</span>}
+    #if(errors.how_know) { <span class="uk-text-danger">#(errors.how_know.error)</span>}
 </div></div>
 
 <div class="uk-margin">
