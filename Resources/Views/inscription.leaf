@@ -12,8 +12,8 @@
 
 <div class="container">
     <div uk-grid>
-        <div class="uk-width-1-4 uk-visible@s"></div>
-        <div class="uk-width-1-2@s uk-margin-left uk-margin-right">
+        <div class="uk-width-1-4 uk-visible@m"></div>
+        <div class="uk-width-1-2@m uk-margin-left uk-margin-right">
     <div class="uk-align-right">#equal(lang, "fr") {<a href="?lang=en">English</a>} #equal(lang, "en") {<a href="?lang=fr">Français</a>}</div>
             <div class="bs-callout bs-callout-uikit">
                 <h4>#(label.family_details)</h4>
@@ -111,7 +111,7 @@
             </form>
         </div>
 
-        <div class="uk-width-1-4 uk-visible@s"></div>
+        <div class="uk-width-1-4 uk-visible@m"></div>
 </div>
 
 
