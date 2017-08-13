@@ -19,6 +19,7 @@ extension Droplet {
                 error = self.config["labels",lang,req.data["error"]!.string!]!.string
             }
             
+            logIt("Inscription")
             
             return try self.view.make("inscription",["label":self.config["labels",lang] as Any, "errors":error as Any, "lang":lang])
         
@@ -50,12 +51,14 @@ extension Droplet {
                 let session = try req.assertSession()
                 try session.data.set("email", emailProvided)
         
-            
+                logIt("Validated Family \(String(describing: emailProvided))")
+                
                 return Response(redirect: "/family/\(String(describing: Family.id!.int!))/dancer")
                 
              } else {
+                logIt("Non-validated family \(String(describing: emailProvided))")
                 
-                return try self.view.make("inscription", ["errors":status,"label":self.config["labels",lang], "lang":lang])
+                return try self.view.make("inscription", ["errors":status,"la!bel":self.config["labels",lang], "lang":lang])
         }
         
             
@@ -110,10 +113,14 @@ extension Droplet {
                 
                 try Dancer.save()
                 
+                logIt("Dancer Saved for family \(familyid)")
+                
                 return Response(redirect: "/family/\(String(describing: familyid))")
                 
             } else {
-
+                
+                logIt("Dancer Errors for faimly \(familyid)")
+                
                 return try self.view.make("dancer", ["errors":status,"label":self.config["labels",lang], "lang":lang])
             }
         }
@@ -180,6 +187,8 @@ extension Droplet {
                 
                 try Dancer.save()
                 
+                logIt("Dancer Updated for family \(familyid)")
+                
                 return Response(redirect: "/family/\(String(describing: familyid))")
                 
             } else {
@@ -224,7 +233,9 @@ extension Droplet {
             }
             
             let familyMembers =  try dancer.makeQuery().filter("Family", .equals ,familyid).all().makeJSON()
-                
+            
+            logIt("Family Overview for familyId \(familyid)")
+            
             return try self.view.make("family", ["family":familyMembers, "familyid":familyid, "label":self.config["labels",lang], "lang":lang])
         }
         
@@ -300,6 +311,7 @@ extension Droplet {
             
             let lessons = try addLessonName(drop: self, familyId: (Family?.id?.string!)!, lang:lang)
             
+            logIt("Printed for dancer \(String(describing: dancer.id?.string!))")
 
             return try self.view.make("print",["family":Family!.makeJSON(), "dancers":dancer.makeJSON(), "lessons":lessons, "config":self.config["lessons"]!.makeNode(in:nil), "label":self.config["labels",lang]!])
         }
@@ -337,6 +349,8 @@ extension Droplet {
             
             let dancers = try dancer.makeQuery().filter("Family", .equals, Family.id!.string).all().makeJSON()
             
+            logIt("Confirmation screen from email for family \(String(describing: Family.id?.string!))")
+            
             return try self.view.make("confirm", ["familyid":Family.id!.string,"label":self.config["labels",lang],"dancers":dancers, "lang":lang, "host":req.uri.hostname])
         }
         
@@ -354,6 +368,8 @@ extension Droplet {
             try sendEmail(familyId: familyid, Template: "PRINT", drop: self, lang: lang, host:req.uri.hostname)
             
             let dancers = try dancer.makeQuery().filter("Family", .equals, familyid).all().makeJSON()
+            
+            logIt("Confirmation screen for family \(String(describing: familyid))")
             
             return try self.view.make("confirm", ["familyid":familyid,"label":self.config["labels",lang],"dancers":dancers, "lang":lang, "host":req.uri.hostname])
             

@@ -208,3 +208,8 @@ func sendAdminEmail(Template:String, drop:Droplet, lang:String, host:String, ema
     let email = Email(from:"info@junior-ballet.com", to: email, subject: subject, body: emailContent)
     try drop.mail.send(email)
 }
+
+func logIt(_ message:String) {
+    
+    print(Date().dateAndTime() + " " + message)
+}

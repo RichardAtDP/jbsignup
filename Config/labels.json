@@ -111,7 +111,7 @@
         "SESSION":"Session automne / hiver 2017",
         "student_name":" Prénom et nom de l’élève",
         "age":"Âge",
-        "health":"State of heath, including allergies",
+        "health":"État de santé (allergies ou autres)",
         "address":"Adresse",
         "street":"Rue",
         "appartment":"App. #",
