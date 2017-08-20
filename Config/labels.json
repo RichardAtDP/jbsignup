@@ -71,7 +71,8 @@
         "phone":"Phone",
         "administrator_identify":"Please Enter your Email",
         "administrator_identify_instruction":"We use this to see if you have permission to enter this module.",
-        "identify_email":"You have been sent an email with a link that will allow you to log into the Administration Module."
+        "identify_email":"You have been sent an email with a link that will allow you to log into the Administration Module.",
+        "reminders":"Reminders"
         
         
         
@@ -149,6 +150,7 @@
         "phone":"Téléphone",
         "administrator_identify":"Veuillez entrer votre courriel",
         "administrator_identify_instruction":"Nous utilisons votre courriel pour confirmer que vous avez le droit d'entrer le module.",
-        "identify_email":"Nous vous avons envoyé par courriel un lien qui vous donnerez accès au système d'administration. Veuillez le garder securitairement."
+        "identify_email":"Nous vous avons envoyé par courriel un lien qui vous donnerez accès au système d'administration. Veuillez le garder securitairement.",
+        "reminders":"Rappels"
     }
 }

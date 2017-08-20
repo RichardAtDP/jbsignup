@@ -203,6 +203,34 @@ func sendEmail(familyId:String, Template:String, drop:Droplet, lang:String, host
         }
     }
     
+    if Template == "REMINDER" {
+        if lang == "en" {
+            body = "<html></p>Hi,</p><p>Thank you for having begun your inscription to the Junior Ballet!</p><p>We cannot wait to welcome you to our Fall-Winter season.</p><p></p><p><br />In order to accelerate your inscription, don't forget to print <a href='https://\(host)/summary/\(Family!.printKey)'>your contract</a> and bring it to the inscription session.</p> <p></p><p><br />The inscription sessions will take place:</p><p> </p><p>Tuesday 22nd August from 16:00 à 20:00</p><p>Saturday and Sunday 26th and 27th August from 13:00 to 17:00</p><p></p><p><br />Thank you!</p></html>"
+            
+            subject = "Your Inscription to Junior Ballet's Fall-Winter 2017 Season"
+        }
+        
+        if lang == "fr" {
+            body = "<html></p>Bonjour,</p><p>Merci d’avoir démarré votre inscription au Junior Ballet.</p><p>Nous avons hâte de vous accueillir pour notre nouvelle session.</p><p></p><p><br />Pour accélérer votre inscription, n'oubliez pas d'imprimer <a href='https://\(host)/summary/\(Family!.printKey)'>votre contrat</a> et apportez le lors des l’inscriptions.</p> <p></p><p><br />Les inscriptions auront lieu au Junior Ballet :</p><p> </p><p>Mardi 22 août de 16h00 à 20h00</p><p>Samedi et dimanche 26 et 27 août de 13h00 à 17h00</p><p></p><p><br />Merci de l’intérêt que vous portez au Junior Ballet !</p></html>"
+            
+            subject = "Votre inscription au session automne-hiver 2017 du Junior Ballet"
+        }
+    }
+    
+    if Template == "ADDDANCERS" {
+        if lang == "en" {
+            body = "<html></p>Hi,</p><p>Thank you for having begun your inscription to the Junior Ballet!</p><p>We cannot wait to welcome you to our Fall-Winter season.</p><p></p><p><br />In order to continue your inscription, please enter your dancer(s) name  : https://\(host)/restart/\(Family!.printKey) <p></p><p></p><p><br />The inscription sessions will take place:</p><p> </p><p>Tuesday 22nd August from 16:00 à 20:00</p><p>Saturday and Sunday 26th and 27th August from 13:00 to 17:00</p><p></p><p><br />Thank you!</p></html>"
+            
+            subject = "Your Inscription to Junior Ballet's Fall-Winter 2017 Season"
+        }
+        
+        if lang == "fr" {
+            body = "<html></p>Bonjour,</p><p>Merci d’avoir démarré votre inscription au Junior Ballet.</p><p>Nous avons hâte de vous accueillir pour notre nouvelle session.</p><p></p><p><br />Afin de continuer votre inscription, pourriez-vous remplir le nom de l’élève  en cliquant sur le lien suivant : https://\(host)/restart/\(Family!.printKey) <p></p><p>Pour accélérer votre inscription, imprimez votre contrat et apportez le lors des l’inscriptions.</p> <p></p><p><br />Les inscriptions auront lieu au Junior Ballet :</p><p> </p><p>Mardi 22 août de 16h00 à 20h00</p><p>Samedi et dimanche 26 et 27 août de 13h00 à 17h00</p><p></p><p><br />Merci de l’intérêt que vous portez au Junior Ballet !</p></html>"
+            
+            subject = "Votre inscription au session automne-hiver 2017 du Junior Ballet"
+        }
+    }
+    
     let emailContent = EmailBody(type: .html, content: body)
     let email = Email(from:"info@junior-ballet.com", to: Family!.email, subject: subject, body: emailContent)
     try drop.mail.send(email)

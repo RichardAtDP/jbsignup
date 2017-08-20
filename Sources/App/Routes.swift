@@ -449,11 +449,58 @@ extension Droplet {
                 FamilyInfo = try Family.makeJSON()
                 try FamilyInfo.set("dancers", dancers)
                 
+                let reminderCounter = try counter.makeQuery().filter("objectId", .equals, Family.id?.string).first()?.counter
+                try FamilyInfo.set("reminderCounter",reminderCounter)
+                
                 adminList.append(FamilyInfo)
+                
+                
             }
             
             return try self.view.make("administration/administration", ["adminList":adminList, "lang":lang,"label":self.config["labels",lang],"securityKey":securityKey])
         }
+        
+        
+        get("administration","reminder",":securityKey",":familyid") {req in
+            
+            guard let securityKey = req.parameters["securityKey"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            guard let familyid = req.parameters["familyid"]?.string else {
+                throw Abort.badRequest
+            }
+            
+            var status = "UNAUTHORIZED"
+            for useremail in (self.config["administration","useremails"]?.array)! {
+                
+                if try self.hash.check(useremail.string!.makeBytes(), matchesHash: securityKey.makeBytes()) {
+                    status = "OK"
+                }
+            }
+            
+            if status == "UNAUTHORIZED" {return "Bad access"}
+            
+            var Template = ""
+            if try dancer.makeQuery().filter("Family", .equals, familyid).count() == 0 { Template = "ADDDANCERS"} else { Template = "REMINDER"}
+            
+            let familyLang = try family.find(familyid)?.lang
+            
+            try sendEmail(familyId: familyid, Template: Template, drop: self, lang: familyLang!, host:req.uri.hostname)
+            
+            let existingCounter = try counter.makeQuery().filter("objectId", .equals, familyid).first()
+            
+            let count = 1
+            if existingCounter == nil {
+                let _ = try counter(objectId: familyid, counter: 1).save()
+            } else {
+                existingCounter?.counter += 1
+                try existingCounter?.save()
+            }
+            
+            return String(describing: existingCounter?.counter ?? count)
+        }
+        
         
         try resource("posts", PostController.self)
     }

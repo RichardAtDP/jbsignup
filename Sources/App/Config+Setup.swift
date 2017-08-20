@@ -34,5 +34,6 @@ extension Config {
         preparations.append(dancer.self)
         preparations.append(family.self)
         preparations.append(lesson.self)
+        preparations.append(counter.self)
     }
 }

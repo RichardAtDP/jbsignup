@@ -38,10 +38,10 @@
 }
 <div class="uk-padding-small"></div>
 
-<table class="uk-table uk-table-striped uk-table-hover">
+<table class="uk-table uk-table-striped uk-table-hover uk-table-middle uk-table-small">
     <thead>
         <tr>
-    <th>#(label.dancers_title)</th><th><a href="/administration/#(securityKey)?sort=email">#(label.email_address)</a></th><th>#(label.CASL)</th><th>#(label.lang)</th><th>#(label.address)</th><th>#(label.phone)</th><th><a href="/administration/#(securityKey)?sort=created">#(label.created)</a></th><th><a href="/administration/#(securityKey)?sort=updated">#(label.updated)</a></th><th>#(label.action)</th>
+    <th>#(label.dancers_title)</th><th><a href="/administration/#(securityKey)?sort=email">#(label.email_address)</a></th><th>#(label.CASL)</th><th>#(label.lang)</th><th>#(label.address)</th><th>#(label.phone)</th><th><a href="/administration/#(securityKey)?sort=created">#(label.created)</a></th><th><a href="/administration/#(securityKey)?sort=updated">#(label.updated)</a></th><th>#(label.reminders)</th><th>#(label.action)</th>
         </tr>
     </thead>
 #loop(adminList,"family") {
@@ -58,6 +58,7 @@
         <td><span uk-icon="icon: home"></span> #(family.homephone) <br /><span uk-icon="icon: phone"></span> #(family.cellphone)</td>
         <td>#(family.createdAt)</td>
         <td>#(family.updatedAt)</td>
+        <td><span id="summary#(family.id)">#(family.reminderCounter)</span> <a onclick="getSummary('#(family.id)')" uk-icon="icon: mail"></a></td>
         <td class="uk-align-center"><a href="/restart/#(family.printKey)" uk-icon="icon: pencil"  target="_blank"></a></td>
     </tr>
 }
@@ -66,5 +67,21 @@
 
 </div>
 
+<script>
+
+function getSummary(id)
+{
+$.ajax({
+
+type: "GET",
+url: 'http://0.0.0.0:8080/administration/reminder/#(securityKey)/' + id,
+success: function(data) {
+#raw() { $('#summary' + id).html(data);}
+    }
+
+});
+
+}
+</script>
 
 }
