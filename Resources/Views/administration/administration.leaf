@@ -74,7 +74,7 @@ function getSummary(id)
 $.ajax({
 
 type: "GET",
-url: 'http://0.0.0.0:8080/administration/reminder/#(securityKey)/' + id,
+url: 'https://jbsignup.vapor.cloud/administration/reminder/#(securityKey)/' + id,
 success: function(data) {
 #raw() { $('#summary' + id).html(data);}
     }
