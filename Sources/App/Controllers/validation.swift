@@ -18,7 +18,7 @@ class validate {
     
     init(){
         self.fieldConfig["password"] = ["type":"String","min":8,"max":25,"Required":"Y"]
-        self.fieldConfig["email"] = ["type":"email","min":5,"max":25,"Required":"Y"]
+        self.fieldConfig["email"] = ["type":"email","min":5,"max":100,"Required":"Y"]
         self.fieldConfig["name"] = ["type":"String","min":2,"max":255,"Required":"Y"]
         self.fieldConfig["FirstName"] = ["type":"String","min":2,"max":255,"Required":"Y"]
         self.fieldConfig["LastName"] = ["type":"String","min":2,"max":255,"Required":"Y"]

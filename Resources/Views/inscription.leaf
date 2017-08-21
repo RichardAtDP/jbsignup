@@ -40,7 +40,7 @@
 
             <div class="uk-margin">
                 <label for="exampleInputEmail1" class="uk-form-label">#(label.email_address)*</label>
-                <input type="email" class="uk-input" name="email" id="exampleInputEmail1" placeholder="#(label.email_address)" maxlength=25>
+                <input type="email" class="uk-input" name="email" id="exampleInputEmail1" placeholder="#(label.email_address)" maxlength=100>
             </div>
             <div class="uk-margin">
 <label><input class="uk-checkbox" type="checkbox" name="CASL"> <span class="uk-text-small">#(label.email_contact)</span><br> <span class="uk-text-muted uk-text-small">    #(label.email_contact2)</span></label>
