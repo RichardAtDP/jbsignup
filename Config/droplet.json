@@ -32,8 +32,7 @@
     "middleware": [
         "error",
         "date",
-        "file",
-        "sessions"
+        "file"
     ],
 
     "mail":"sendgrid",
